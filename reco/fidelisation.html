@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fidélisation Post-Achat — Avant / Après — Audit CRO Hélas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1c1c1c; background: #fff; }
+
+        /* TOP BAR */
+        .top-bar { position: fixed; top: 0; left: 0; right: 0; height: 50px; background: #1c1c1c; color: #fff; z-index: 10000; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; font-size: 13px; }
+        .top-bar-left { display: flex; align-items: center; gap: 12px; }
+        .top-bar-left a { color: #fff; text-decoration: none; font-size: 12px; opacity: 0.7; transition: opacity 0.3s; }
+        .top-bar-left a:hover { opacity: 1; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .badge-reco { font-size: 10px; background: rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 3px; }
+
+        .toggle-btn { padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s; }
+        .toggle-btn.avant { background: #F97316; color: #fff; }
+        .toggle-btn.apres { background: #22c55e; color: #fff; }
+
+        /* PAGE WRAPPER */
+        .page-wrapper { margin-top: 50px; }
+
+        /* HEADER */
+        .site-header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; display: flex; justify-content: center; align-items: center; }
+        .header-logo img { height: 36px; }
+
+        /* CONFIRMATION CONTENT */
+        .confirmation-wrapper { max-width: 600px; margin: 0 auto; padding: 50px 20px 60px; text-align: center; }
+
+        .check-icon { width: 70px; height: 70px; border-radius: 50%; background: #22c55e; color: #fff; font-size: 34px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+
+        .confirmation-title { font-size: 26px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.3px; }
+        .confirmation-subtitle { font-size: 15px; color: #666; margin-bottom: 6px; }
+        .order-number { font-size: 13px; color: #999; margin-bottom: 30px; }
+
+        /* ORDER SUMMARY BOX */
+        .order-summary { border: 1px solid #e8e8e8; border-radius: 6px; padding: 24px; margin-bottom: 30px; text-align: left; }
+        .order-summary-title { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 16px; }
+        .order-line { display: flex; justify-content: space-between; align-items: center; font-size: 14px; margin-bottom: 10px; }
+        .order-line-product { font-weight: 500; }
+        .order-divider { border: none; border-top: 1px solid #e8e8e8; margin: 14px 0; }
+        .order-line.shipping { font-size: 13px; color: #666; }
+        .order-line.total { font-size: 15px; font-weight: bold; margin-bottom: 0; }
+
+        .email-notice { font-size: 13px; color: #888; margin-bottom: 30px; }
+
+        .back-btn { display: inline-block; padding: 14px 40px; background: #1c1c1c; color: #fff; text-decoration: none; font-size: 12px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; transition: background 0.3s; border: none; cursor: pointer; }
+        .back-btn:hover { background: #333; }
+
+        /* FOOTER */
+        .site-footer { background: #fff; border-top: 1px solid #e8e8e8; padding: 30px 40px; text-align: center; margin-top: 60px; }
+        .footer-text { font-size: 11px; color: #999; }
+
+        /* ====== CRO ELEMENTS (hidden by default) ====== */
+        .cro-element { display: none !important; }
+        .show-after .cro-element { display: block !important; }
+        .show-after .cro-flex { display: flex !important; }
+
+        /* CRO #6.1 — Collaborations */
+        .collabs-section { padding: 0 20px; max-width: 700px; margin: 0 auto 40px; }
+        .collabs-section .section-title { font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; margin-bottom: 20px; }
+        .collabs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .collab-card { border: 1px solid #e8e8e8; border-radius: 6px; overflow: hidden; text-align: center; transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; }
+        .collab-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .collab-img { width: 100%; aspect-ratio: 4/3; background: #f0f0f0; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; letter-spacing: 0.5px; }
+        .collab-name { font-size: 13px; font-weight: bold; padding: 14px 10px 6px; letter-spacing: 0.3px; }
+        .collab-link { font-size: 12px; color: #F97316; padding: 0 10px 14px; text-decoration: none; display: inline-block; }
+        .collab-link:hover { text-decoration: underline; }
+
+        /* CRO #6.2 — Loyalty programme */
+        .loyalty-section { padding: 30px 20px; max-width: 700px; margin: 0 auto 40px; background: #fffbf5; border: 1px solid #fde6c8; border-radius: 8px; text-align: center; }
+        .loyalty-title { font-size: 18px; font-weight: bold; margin-bottom: 16px; }
+        .loyalty-points { font-size: 14px; color: #444; margin-bottom: 16px; }
+        .loyalty-points strong { color: #F97316; font-size: 18px; }
+        .progress-bar-wrapper { max-width: 400px; margin: 0 auto 10px; }
+        .progress-bar-bg { width: 100%; height: 10px; background: #e8e8e8; border-radius: 5px; overflow: hidden; }
+        .progress-bar-fill { width: 29%; height: 100%; background: linear-gradient(90deg, #F97316, #fb923c); border-radius: 5px; transition: width 0.6s ease; }
+        .progress-label { font-size: 11px; color: #999; margin-bottom: 14px; display: flex; justify-content: space-between; max-width: 400px; margin: 4px auto 14px; }
+        .loyalty-next { font-size: 13px; color: #555; margin-bottom: 10px; }
+        .loyalty-referral { font-size: 13px; color: #F97316; font-weight: 600; }
+
+        /* CRO #6.3 — Cross-sell post-achat */
+        .crosssell-section { padding: 0 20px; max-width: 700px; margin: 0 auto 40px; }
+        .crosssell-section .section-title { font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; text-align: center; margin-bottom: 20px; }
+        .crosssell-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .crosssell-card { border: 1px solid #e8e8e8; border-radius: 6px; overflow: hidden; text-align: center; transition: transform 0.2s, box-shadow 0.2s; }
+        .crosssell-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.08); }
+        .crosssell-img { width: 100%; aspect-ratio: 1; background: #f5f5f5; overflow: hidden; }
+        .crosssell-img img { width: 100%; height: 100%; object-fit: cover; }
+        .crosssell-img .placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 11px; color: #999; background: #f0f0f0; }
+        .crosssell-name { font-size: 13px; font-weight: bold; padding: 14px 10px 4px; letter-spacing: 0.3px; }
+        .crosssell-price { font-size: 14px; font-weight: 500; padding: 0 10px 4px; }
+        .crosssell-promo { font-size: 11px; color: #22c55e; font-weight: 600; padding: 0 10px 10px; min-height: 18px; }
+        .crosssell-btn { display: block; margin: 0 10px 14px; padding: 10px; background: #1c1c1c; color: #fff; border: none; cursor: pointer; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; text-transform: uppercase; transition: background 0.3s; border-radius: 4px; }
+        .crosssell-btn:hover { background: #333; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .site-header { padding: 14px 20px; }
+            .top-bar { padding: 0 15px; }
+            .collabs-grid, .crosssell-grid { grid-template-columns: 1fr; max-width: 300px; margin: 0 auto; }
+            .confirmation-wrapper { padding: 30px 16px 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR (audit navigation) -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="../index.html">&larr; Retour aux recommandations</a>
+        </div>
+        <div class="top-bar-right">
+            <span class="badge-reco">CRO #6.1 #6.2 #6.3</span>
+            <button class="toggle-btn avant" id="toggleBtn" onclick="toggleView()">VOIR APR&Egrave;S</button>
+        </div>
+    </div>
+
+    <div class="page-wrapper" id="pageWrapper">
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="header-logo">
+                <img src="https://www.helascaps.com/cdn/shop/files/helas.png" alt="HELAS">
+            </div>
+        </header>
+
+        <!-- CONFIRMATION CONTENT -->
+        <div class="confirmation-wrapper">
+
+            <div class="check-icon">&#10003;</div>
+            <h1 class="confirmation-title">Commande confirm&eacute;e</h1>
+            <p class="confirmation-subtitle">Merci pour votre achat !</p>
+            <p class="order-number">Commande #HEL-28471</p>
+
+            <!-- ORDER SUMMARY -->
+            <div class="order-summary">
+                <div class="order-summary-title">R&eacute;capitulatif</div>
+                <div class="order-line">
+                    <span class="order-line-product">JAZZY JEANS JACKET LIGHT BLUE &times; 1</span>
+                    <span>145,00&euro;</span>
+                </div>
+                <hr class="order-divider">
+                <div class="order-line shipping">
+                    <span>Livraison</span>
+                    <span>0,00&euro; (offerte)</span>
+                </div>
+                <hr class="order-divider">
+                <div class="order-line total">
+                    <span>Total</span>
+                    <span>145,00&euro;</span>
+                </div>
+            </div>
+
+            <p class="email-notice">Un email de confirmation a &eacute;t&eacute; envoy&eacute; &agrave; votre adresse.</p>
+
+            <a href="#" class="back-btn">Retour &agrave; la boutique</a>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- CRO #6.1 — Collaborations -->
+        <!-- ========================================= -->
+        <div class="collabs-section cro-element">
+            <div class="section-title">D&eacute;couvrez nos collaborations</div>
+            <div class="collabs-grid">
+                <div class="collab-card">
+                    <div class="collab-img">HELAS &times; ADIDAS</div>
+                    <div class="collab-name">H&Eacute;LAS &times; ADIDAS</div>
+                    <a href="#" class="collab-link">D&eacute;couvrir &rarr;</a>
+                </div>
+                <div class="collab-card">
+                    <div class="collab-img">HELAS &times; CARHARTT</div>
+                    <div class="collab-name">H&Eacute;LAS &times; CARHARTT</div>
+                    <a href="#" class="collab-link">D&eacute;couvrir &rarr;</a>
+                </div>
+                <div class="collab-card">
+                    <div class="collab-img">HELAS &times; FUTURA</div>
+                    <div class="collab-name">H&Eacute;LAS &times; FUTURA</div>
+                    <a href="#" class="collab-link">D&eacute;couvrir &rarr;</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- CRO #6.2 — Programme fidelite -->
+        <!-- ========================================= -->
+        <div class="loyalty-section cro-element">
+            <div class="loyalty-title">BIENVENUE DANS LE CLUB H&Eacute;LAS &#127881;</div>
+            <div class="loyalty-points">Vous avez gagn&eacute; <strong>145 points</strong> avec cette commande</div>
+            <div class="progress-bar-wrapper">
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill"></div>
+                </div>
+            </div>
+            <div class="progress-label">
+                <span>145 pts</span>
+                <span>500 pts</span>
+            </div>
+            <div class="loyalty-next">Prochain avantage : <strong>-15% sur votre prochaine commande</strong> (500 pts)</div>
+            <div class="loyalty-referral">Parrainer un ami = +200 points bonus</div>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- CRO #6.3 — Cross-sell post-achat -->
+        <!-- ========================================= -->
+        <div class="crosssell-section cro-element">
+            <div class="section-title">Compl&eacute;tez votre style</div>
+            <div class="crosssell-grid">
+                <div class="crosssell-card">
+                    <div class="crosssell-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_PANTS_LIGHT_BLUE_24372.jpg" alt="Jazzy Jeans Pants Light Blue">
+                    </div>
+                    <div class="crosssell-name">JAZZY JEANS PANTS LIGHT BLUE</div>
+                    <div class="crosssell-price">115,00&euro;</div>
+                    <div class="crosssell-promo">-10% avec le code MERCI10</div>
+                    <button class="crosssell-btn">Ajouter &agrave; ma commande</button>
+                </div>
+                <div class="crosssell-card">
+                    <div class="crosssell-img">
+                        <div class="placeholder">JAZZY CAP</div>
+                    </div>
+                    <div class="crosssell-name">JAZZY CAP</div>
+                    <div class="crosssell-price">45,00&euro;</div>
+                    <div class="crosssell-promo">&nbsp;</div>
+                    <button class="crosssell-btn">Ajouter &agrave; ma commande</button>
+                </div>
+                <div class="crosssell-card">
+                    <div class="crosssell-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/CLASSIC_LS_TEE_WASHED_BLUE_24493.jpg" alt="Classic LS Tee">
+                    </div>
+                    <div class="crosssell-name">CLASSIC LS TEE</div>
+                    <div class="crosssell-price">58,00&euro;</div>
+                    <div class="crosssell-promo">&nbsp;</div>
+                    <button class="crosssell-btn">Ajouter &agrave; ma commande</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-text">&copy; 2026 H&Eacute;LAS &mdash; Made by EasyEshop</div>
+        </footer>
+    </div>
+
+    <script>
+        let isAfter = false;
+
+        function toggleView() {
+            isAfter = !isAfter;
+            const wrapper = document.getElementById('pageWrapper');
+            const btn = document.getElementById('toggleBtn');
+
+            if (isAfter) {
+                wrapper.classList.add('show-after');
+                btn.textContent = 'VOIR AVANT';
+                btn.classList.remove('avant');
+                btn.classList.add('apres');
+            } else {
+                wrapper.classList.remove('show-after');
+                btn.textContent = 'VOIR APR\u00C8S';
+                btn.classList.remove('apres');
+                btn.classList.add('avant');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage — Avant / Après — Audit CRO Hélas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1c1c1c; background: #fff; }
+
+        /* TOP BAR */
+        .top-bar { position: fixed; top: 0; left: 0; right: 0; height: 50px; background: #1c1c1c; color: #fff; z-index: 10000; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; font-size: 13px; }
+        .top-bar-left { display: flex; align-items: center; gap: 12px; }
+        .top-bar-left a { color: #fff; text-decoration: none; font-size: 12px; opacity: 0.7; transition: opacity 0.3s; }
+        .top-bar-left a:hover { opacity: 1; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .badge-reco { font-size: 10px; background: rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 3px; }
+
+        .toggle-btn { padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s; }
+        .toggle-btn.avant { background: #F97316; color: #fff; }
+        .toggle-btn.apres { background: #22c55e; color: #fff; }
+
+        /* PAGE WRAPPER */
+        .page-wrapper { margin-top: 50px; }
+
+        /* ANNOUNCEMENT BAR */
+        .announcement-bar { background: #1c1c1c; color: #fff; padding: 10px 40px; text-align: center; font-size: 12px; letter-spacing: 0.3px; }
+
+        /* Announcement bar toggle */
+        .announcement-after { display: none; }
+        .show-after .announcement-before { display: none; }
+        .show-after .announcement-after { display: flex; justify-content: center; gap: 40px; }
+        .announcement-after span { display: flex; align-items: center; gap: 6px; }
+
+        /* HEADER */
+        .site-header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 50px; z-index: 9000; }
+        .header-logo img { height: 36px; }
+        .header-nav { display: flex; gap: 35px; list-style: none; font-size: 13px; font-weight: 500; }
+        .header-nav a { color: #1c1c1c; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-nav a:hover { opacity: 0.6; }
+        .header-icons { display: flex; gap: 20px; font-size: 14px; color: #1c1c1c; align-items: center; }
+        .header-icons span { cursor: pointer; }
+
+        /* SLIDESHOW / HERO */
+        .hero-section { position: relative; width: 100%; overflow: hidden; }
+        .hero-section img { width: 100%; display: block; }
+        .hero-overlay { position: absolute; bottom: 60px; left: 60px; color: #fff; }
+        .hero-overlay h1 { font-size: 48px; font-weight: bold; letter-spacing: 6px; text-transform: uppercase; text-shadow: 0 2px 20px rgba(0,0,0,0.4); margin-bottom: 16px; }
+        .hero-overlay .hero-btn { display: inline-block; padding: 14px 36px; background: #fff; color: #1c1c1c; text-decoration: none; font-size: 13px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; transition: background 0.3s, color 0.3s; }
+        .hero-overlay .hero-btn:hover { background: #1c1c1c; color: #fff; }
+
+        /* CTA SECTION (CRO #2.1) */
+        .cta-section { text-align: center; padding: 50px 40px; background: #fafafa; border-bottom: 1px solid #e8e8e8; }
+        .cta-section h2 { font-size: 28px; font-weight: bold; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; }
+        .cta-section p { font-size: 15px; color: #666; margin-bottom: 24px; }
+        .cta-section .cta-btn { display: inline-block; padding: 16px 40px; background: #F97316; color: #fff; text-decoration: none; font-size: 14px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; border: none; cursor: pointer; transition: background 0.3s; }
+        .cta-section .cta-btn:hover { background: #e86a10; }
+
+        /* PRODUCT GRID */
+        .products-section { max-width: 1200px; margin: 0 auto; padding: 50px 40px; }
+        .products-section h2 { font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 40px; }
+        .products-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        .product-card { position: relative; }
+        .product-card-img { width: 100%; aspect-ratio: 1; background: #f5f5f5; overflow: hidden; margin-bottom: 12px; }
+        .product-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .product-card:hover .product-card-img img { transform: scale(1.05); }
+        .product-card-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; line-height: 1.4; }
+        .product-card-price { font-size: 13px; font-weight: bold; }
+
+        /* BEST-SELLER BADGE (CRO #2.2) */
+        .bestseller-badge { position: absolute; top: 10px; left: 10px; background: #dc2626; color: #fff; font-size: 10px; font-weight: bold; letter-spacing: 0.5px; padding: 4px 10px; text-transform: uppercase; z-index: 10; }
+
+        /* STAR RATINGS (CRO #2.2) */
+        .product-card-rating { font-size: 11px; margin-bottom: 4px; }
+        .product-card-rating .stars { color: #f59e0b; letter-spacing: 1px; font-size: 11px; }
+        .product-card-rating .rating-num { color: #666; font-size: 10px; margin-left: 4px; }
+
+        /* INSTAGRAM UGC SECTION (CRO #2.3) */
+        .ugc-section { background: #fafafa; padding: 50px 40px; border-top: 1px solid #e8e8e8; }
+        .ugc-section h2 { font-size: 18px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; text-align: center; margin-bottom: 10px; }
+        .ugc-section p { text-align: center; font-size: 13px; color: #666; margin-bottom: 30px; }
+        .ugc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; max-width: 1200px; margin: 0 auto; }
+        .ugc-item { aspect-ratio: 1; background: #e8e8e8; position: relative; overflow: hidden; border-radius: 4px; }
+        .ugc-item .ugc-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .ugc-item:hover .ugc-overlay { opacity: 1; }
+        .ugc-overlay span { color: #fff; font-size: 24px; }
+        .ugc-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #ccc; background: linear-gradient(135deg, #e8e8e8 0%, #d4d4d4 100%); }
+        .ugc-handle { text-align: center; margin-top: 20px; }
+        .ugc-handle a { color: #1c1c1c; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; }
+        .ugc-handle a:hover { color: #F97316; }
+
+        /* STORYTELLING SECTION (CRO #2.4) */
+        .story-section { padding: 60px 40px; text-align: center; max-width: 700px; margin: 0 auto; }
+        .story-section h2 { font-size: 22px; font-weight: bold; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 16px; }
+        .story-section p { font-size: 15px; line-height: 1.8; color: #555; margin-bottom: 20px; }
+        .story-section a { color: #F97316; text-decoration: none; font-size: 13px; font-weight: 600; letter-spacing: 0.5px; transition: opacity 0.3s; }
+        .story-section a:hover { opacity: 0.7; }
+
+        /* FOOTER */
+        .site-footer { background: #1c1c1c; color: #fff; padding: 50px 40px; margin-top: 0; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; font-size: 12px; }
+        .footer-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #999; }
+        .footer-col a { color: #fff; text-decoration: none; display: block; margin-bottom: 8px; opacity: 0.7; }
+        .footer-col a:hover { opacity: 1; }
+        .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; font-size: 11px; color: #666; }
+
+        /* ====== CRO ELEMENTS (hidden by default) ====== */
+        .cro-element { display: none !important; }
+        .show-after .cro-element { display: block !important; }
+        .show-after .cro-element-flex { display: flex !important; }
+        .show-after .cro-element-grid { display: grid !important; }
+        .show-after .cro-element-inline { display: inline-block !important; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero-overlay { bottom: 30px; left: 30px; }
+            .hero-overlay h1 { font-size: 28px; letter-spacing: 3px; }
+            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+            .ugc-grid { grid-template-columns: repeat(2, 1fr); }
+            .site-header { padding: 14px 20px; }
+            .header-nav { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+            .top-bar { padding: 0 15px; }
+            .announcement-after { flex-wrap: wrap; gap: 10px !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR (audit navigation) -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="../index.html">&larr; Retour aux recommandations</a>
+        </div>
+        <div class="top-bar-right">
+            <span class="badge-reco">CRO #2.1 #2.2 #2.3 #2.4</span>
+            <button class="toggle-btn avant" id="toggleBtn" onclick="toggleView()">VOIR APR&Egrave;S</button>
+        </div>
+    </div>
+
+    <div class="page-wrapper" id="pageWrapper">
+
+        <!-- ANNOUNCEMENT BAR -->
+        <div class="announcement-bar">
+            <div class="announcement-before">Europe: free shipping on all orders over 125&euro;. Worldwide: free shipping on all orders over &euro;150.</div>
+            <div class="announcement-after">
+                <span>&check; Livraison gratuite d&egrave;s 125&euro;</span>
+                <span>&#128293; Bestsellers de la saison</span>
+                <span>&#128761; Depuis 2012 &mdash; Paris</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="header-logo">
+                <img src="https://www.helascaps.com/cdn/shop/files/helas.png" alt="H&eacute;las">
+            </div>
+            <ul class="header-nav">
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Lookbook</a></li>
+                <li><a href="#">Mixtapes</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <div class="header-icons">
+                <span>&#128269;</span>
+                <span>&#128100;</span>
+                <span>&#128722; (0)</span>
+            </div>
+        </header>
+
+        <!-- HERO / SLIDESHOW -->
+        <div class="hero-section">
+            <img src="https://www.helascaps.com/cdn/shop/files/HELAS_SP26_SLIDERS_WEB10.jpg" alt="Spring 2026">
+            <div class="hero-overlay">
+                <h1>Spring 2026</h1>
+                <a href="#" class="hero-btn">Lookbook</a>
+            </div>
+        </div>
+
+        <!-- CRO #2.1: CTA Section (hidden by default) -->
+        <div class="cta-section cro-element">
+            <h2>Nouvelle Collection Spring 2026</h2>
+            <p>D&eacute;couvrez les pi&egrave;ces incontournables de la saison</p>
+            <a href="#" class="cta-btn">Shop Now &rarr;</a>
+        </div>
+
+        <!-- PRODUCT GRID -->
+        <div class="products-section">
+            <h2>New Arrivals</h2>
+            <div class="products-grid">
+
+                <!-- Product 1 - Jazzy Jacket (bestseller) -->
+                <div class="product-card">
+                    <div class="bestseller-badge cro-element">Best-Seller</div>
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg" alt="Jazzy Jeans Jacket Light Blue">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Jazzy Jeans Jacket Light Blue</div>
+                    <div class="product-card-price">145&euro;</div>
+                </div>
+
+                <!-- Product 2 - Jazzy Pants -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_PANTS_LIGHT_BLUE_24372.jpg" alt="Jazzy Jeans Pants Light Blue">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Jazzy Jeans Pants Light Blue</div>
+                    <div class="product-card-price">115&euro;</div>
+                </div>
+
+                <!-- Product 3 - Detente Tracksuit -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/DETENTE_TRACKSUIT_JACKET_BLACK_24349.jpg" alt="Detente Tracksuit Jacket Black">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Detente Tracksuit Jacket Black</div>
+                    <div class="product-card-price">130&euro;</div>
+                </div>
+
+                <!-- Product 4 - Hoop Quarter Zip (bestseller) -->
+                <div class="product-card">
+                    <div class="bestseller-badge cro-element">Best-Seller</div>
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/HOOP_QUARTER_ZIP_BLUE_BLACK_24508.jpg" alt="Hoop Quarter Zip Blue/Black">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Hoop Quarter Zip Blue/Black</div>
+                    <div class="product-card-price">115&euro;</div>
+                </div>
+
+                <!-- Product 5 - Raymond Quarter Zip -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/RAYMOND_QUARTER_ZIP_KNIT_STRIPED_MULTICO_24422.jpg" alt="Raymond Quarter Zip Knit Striped Multico">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Raymond Quarter Zip Knit Striped Multico</div>
+                    <div class="product-card-price">110&euro;</div>
+                </div>
+
+                <!-- Product 6 - Kool Crewneck -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/KOOL_CREWNECK_KNIT_LIGHT_BEIGE_24356.jpg" alt="Kool Crewneck Knit Light Beige">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Kool Crewneck Knit Light Beige</div>
+                    <div class="product-card-price">110&euro;</div>
+                </div>
+
+                <!-- Product 7 - Ibiz Hoodie (bestseller) -->
+                <div class="product-card">
+                    <div class="bestseller-badge cro-element">Best-Seller</div>
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/IBIZ_HOODIE_HEATHER_GREY_24504.jpg" alt="Ibiz Hoodie Heather Grey">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Ibiz Hoodie Heather Grey</div>
+                    <div class="product-card-price">115&euro;</div>
+                </div>
+
+                <!-- Product 8 - Carlito Sweat Polo -->
+                <div class="product-card">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/CARLITO_SWEAT_POLO_MULTICO_24442.jpg" alt="Carlito Sweat Polo Multico">
+                    </div>
+                    <div class="product-card-rating cro-element">
+                        <span class="stars">&starf;&starf;&starf;&starf;&starf;</span><span class="rating-num">(4.8)</span>
+                    </div>
+                    <div class="product-card-title">Carlito Sweat Polo Multico</div>
+                    <div class="product-card-price">105&euro;</div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- CRO #2.3: Instagram UGC Section (hidden by default) -->
+        <div class="ugc-section cro-element">
+            <h2>#HELASCAPS &mdash; Rejoignez la communaut&eacute;</h2>
+            <p>Partagez vos looks avec le hashtag #helascaps et apparaissez sur notre page</p>
+            <div class="ugc-grid">
+                <div class="ugc-item">
+                    <div class="ugc-placeholder">&#128247;</div>
+                    <div class="ugc-overlay"><span>&#9829;</span></div>
+                </div>
+                <div class="ugc-item">
+                    <div class="ugc-placeholder">&#128247;</div>
+                    <div class="ugc-overlay"><span>&#9829;</span></div>
+                </div>
+                <div class="ugc-item">
+                    <div class="ugc-placeholder">&#128247;</div>
+                    <div class="ugc-overlay"><span>&#9829;</span></div>
+                </div>
+                <div class="ugc-item">
+                    <div class="ugc-placeholder">&#128247;</div>
+                    <div class="ugc-overlay"><span>&#9829;</span></div>
+                </div>
+            </div>
+            <div class="ugc-handle"><a href="#">@helascaps &rarr;</a></div>
+        </div>
+
+        <!-- CRO #2.4: Storytelling Section (hidden by default) -->
+        <div class="story-section cro-element">
+            <h2>L'Histoire H&eacute;las</h2>
+            <p>N&eacute;e dans les rues de Paris, H&eacute;las puise son inspiration dans le skateboard, la musique et la street culture depuis 2012.</p>
+            <a href="#">D&eacute;couvrir notre histoire &rarr;</a>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p style="color:#999; font-size:12px; margin-bottom:12px;">Sign up to our newsletter to receive exclusive offers.</p>
+                    <div style="display:flex; gap:0;">
+                        <input type="email" placeholder="Email" style="flex:1; padding:10px; border:1px solid #444; background:#333; color:#fff; font-size:12px; border-right:none;">
+                        <button style="padding:10px 16px; background:#fff; color:#1c1c1c; border:none; font-size:11px; font-weight:bold; cursor:pointer;">OK</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Information</h4>
+                    <a href="#">Delivery &amp; Returns</a>
+                    <a href="#">Terms and conditions</a>
+                    <a href="#">Contact &amp; FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow us</h4>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">Vimeo</a>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 H&Eacute;LAS &mdash; Made by EasyEshop</div>
+        </footer>
+    </div>
+
+    <script>
+        let isAfter = false;
+
+        function toggleView() {
+            isAfter = !isAfter;
+            const wrapper = document.getElementById('pageWrapper');
+            const btn = document.getElementById('toggleBtn');
+
+            if (isAfter) {
+                wrapper.classList.add('show-after');
+                btn.textContent = 'VOIR AVANT';
+                btn.classList.remove('avant');
+                btn.classList.add('apres');
+            } else {
+                wrapper.classList.remove('show-after');
+                btn.textContent = 'VOIR APR\u00C8S';
+                btn.classList.remove('apres');
+                btn.classList.add('avant');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>

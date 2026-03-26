@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure du site — Avant / Après — Audit CRO Hélas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1c1c1c; background: #fff; }
+
+        /* TOP BAR */
+        .top-bar { position: fixed; top: 0; left: 0; right: 0; height: 50px; background: #1c1c1c; color: #fff; z-index: 10000; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; font-size: 13px; }
+        .top-bar-left { display: flex; align-items: center; gap: 12px; }
+        .top-bar-left a { color: #fff; text-decoration: none; font-size: 12px; opacity: 0.7; transition: opacity 0.3s; }
+        .top-bar-left a:hover { opacity: 1; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .badge-reco { font-size: 10px; background: rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 3px; }
+        .toggle-btn { padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s; }
+        .toggle-btn.avant { background: #F97316; color: #fff; }
+        .toggle-btn.apres { background: #22c55e; color: #fff; }
+
+        /* PAGE WRAPPER */
+        .page-wrapper { margin-top: 50px; }
+
+        /* ANNOUNCEMENT BAR */
+        .announcement-bar { background: #1c1c1c; color: #fff; padding: 10px 40px; text-align: center; font-size: 12px; letter-spacing: 0.3px; }
+
+        /* HEADER */
+        .site-header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 50px; z-index: 9000; }
+        .header-logo img { height: 36px; }
+        .header-nav { display: flex; gap: 35px; list-style: none; font-size: 13px; font-weight: 500; }
+        .header-nav a { color: #1c1c1c; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-nav a:hover { opacity: 0.6; }
+        .header-icons { display: flex; gap: 20px; font-size: 14px; color: #1c1c1c; align-items: center; }
+        .header-icons span { cursor: pointer; }
+
+        /* SEARCH AREA */
+        .search-section { max-width: 1200px; margin: 0 auto; padding: 40px; }
+        .search-bar-wrapper { position: relative; margin-bottom: 30px; }
+        .search-bar { width: 100%; padding: 14px 20px; padding-right: 50px; border: 2px solid #1c1c1c; font-size: 14px; font-family: Helvetica, Arial, sans-serif; outline: none; }
+        .search-bar::placeholder { color: #999; }
+        .search-icon-btn { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); background: none; border: none; font-size: 18px; cursor: pointer; }
+        .search-results-title { font-size: 14px; color: #666; margin-bottom: 24px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* BASIC RESULTS (AVANT) */
+        .results-grid-basic { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .product-card { text-decoration: none; color: #1c1c1c; }
+        .product-card-img { width: 100%; aspect-ratio: 1; background: #f5f5f5; overflow: hidden; margin-bottom: 12px; }
+        .product-card-img img { width: 100%; height: 100%; object-fit: cover; }
+        .product-card-name { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 4px; line-height: 1.4; }
+        .product-card-price { font-size: 13px; font-weight: bold; }
+
+        /* FOOTER AVANT */
+        .site-footer { background: #1c1c1c; color: #fff; padding: 50px 40px; margin-top: 80px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; font-size: 12px; }
+        .footer-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #999; }
+        .footer-col a { color: #fff; text-decoration: none; display: block; margin-bottom: 8px; opacity: 0.7; }
+        .footer-col a:hover { opacity: 1; }
+        .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; font-size: 11px; color: #666; }
+
+        /* ====== CRO ELEMENTS (hidden by default) ====== */
+        .cro-element { display: none !important; }
+        .cro-hide-after { display: block; }
+
+        .show-after .cro-element { display: block !important; }
+        .show-after .cro-element-flex { display: flex !important; }
+        .show-after .cro-element-grid { display: grid !important; }
+        .show-after .cro-hide-after { display: none !important; }
+
+        /* AUTOCOMPLETE DROPDOWN */
+        .autocomplete-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid #e0e0e0; border-top: none; box-shadow: 0 8px 24px rgba(0,0,0,0.1); z-index: 100; display: none !important; }
+        .show-after .autocomplete-dropdown { display: block !important; }
+        .autocomplete-section { padding: 16px 20px; }
+        .autocomplete-section:not(:last-child) { border-bottom: 1px solid #f0f0f0; }
+        .autocomplete-section-title { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-bottom: 10px; font-weight: 600; }
+        .autocomplete-item { padding: 8px 0; font-size: 13px; color: #1c1c1c; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .autocomplete-item:hover { color: #F97316; }
+        .autocomplete-item .highlight { font-weight: bold; }
+        .autocomplete-arrow { color: #ccc; font-size: 10px; margin-left: auto; }
+
+        /* ENHANCED RESULTS (APRÈS) */
+        .results-enhanced { display: none !important; }
+        .show-after .results-enhanced { display: grid !important; grid-template-columns: 240px 1fr; gap: 40px; }
+
+        /* FILTERS SIDEBAR */
+        .filters-sidebar { display: flex; flex-direction: column; gap: 24px; }
+        .filter-group { border-bottom: 1px solid #e8e8e8; padding-bottom: 20px; }
+        .filter-group-title { font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px; }
+        .filter-option { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #444; margin-bottom: 10px; cursor: pointer; }
+        .filter-option input[type="checkbox"] { accent-color: #1c1c1c; width: 15px; height: 15px; }
+        .filter-count { font-size: 11px; color: #999; margin-left: auto; }
+        .filter-range { display: flex; align-items: center; gap: 8px; }
+        .filter-range input { width: 80px; padding: 8px; border: 1px solid #e0e0e0; font-size: 12px; font-family: Helvetica, Arial, sans-serif; text-align: center; }
+        .filter-range span { color: #999; font-size: 12px; }
+        .color-swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+        .color-swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; }
+        .color-swatch:hover, .color-swatch.active { border-color: #1c1c1c; }
+
+        /* ENHANCED PRODUCT CARDS */
+        .results-grid-enhanced { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+        .product-card-enhanced { text-decoration: none; color: #1c1c1c; position: relative; }
+        .product-card-enhanced .product-card-img { position: relative; }
+        .quick-add-btn { position: absolute; bottom: 12px; left: 12px; right: 12px; padding: 10px; background: #1c1c1c; color: #fff; border: none; font-size: 11px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; opacity: 0; transition: opacity 0.3s; }
+        .product-card-enhanced:hover .quick-add-btn { opacity: 1; }
+        .card-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; }
+        .card-stars { color: #f59e0b; font-size: 11px; letter-spacing: 0.5px; }
+        .card-rating-count { font-size: 11px; color: #999; }
+
+        /* TRUST BADGES ROW */
+        .trust-badges-row { display: none !important; }
+        .show-after .trust-badges-row { display: flex !important; justify-content: center; gap: 40px; padding: 20px 40px; background: #f9fafb; border-top: 1px solid #e8e8e8; }
+        .trust-badge { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #444; font-weight: 500; }
+
+        /* FOOTER APRÈS (rich footer) */
+        .footer-after { display: none; }
+        .show-after .footer-before { display: none; }
+        .show-after .footer-after { display: block; }
+        .footer-after .footer-content-rich { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 40px; font-size: 12px; }
+        .footer-col-rich h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #fff; font-weight: 600; }
+        .footer-col-rich a { color: #fff; text-decoration: none; display: block; margin-bottom: 10px; opacity: 0.6; transition: opacity 0.2s; font-size: 12px; }
+        .footer-col-rich a:hover { opacity: 1; }
+        .footer-col-rich p { color: #999; font-size: 12px; line-height: 1.6; margin-bottom: 14px; }
+        .footer-newsletter-rich { display: flex; gap: 0; margin-bottom: 20px; }
+        .footer-newsletter-rich input { flex: 1; padding: 10px 14px; border: 1px solid #444; background: #333; color: #fff; font-size: 12px; border-right: none; font-family: Helvetica, Arial, sans-serif; }
+        .footer-newsletter-rich button { padding: 10px 18px; background: #F97316; color: #fff; border: none; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; transition: background 0.3s; }
+        .footer-newsletter-rich button:hover { background: #e8650f; }
+        .footer-social-rich { display: flex; gap: 16px; margin-top: 10px; }
+        .footer-social-rich a { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; background: #333; border-radius: 50%; opacity: 1 !important; font-size: 14px; transition: background 0.3s; }
+        .footer-social-rich a:hover { background: #F97316; }
+        .payment-methods { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+        .payment-badge { padding: 4px 10px; background: #333; border-radius: 3px; font-size: 10px; color: #fff; font-weight: 600; letter-spacing: 0.3px; }
+        .footer-bottom-rich { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; font-size: 11px; color: #666; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .search-section { padding: 20px; }
+            .results-grid-basic { grid-template-columns: 1fr 1fr; }
+            .show-after .results-enhanced { grid-template-columns: 1fr; }
+            .results-grid-enhanced { grid-template-columns: 1fr 1fr; }
+            .site-header { padding: 14px 20px; }
+            .header-nav { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+            .footer-after .footer-content-rich { grid-template-columns: 1fr; }
+            .top-bar { padding: 0 15px; }
+            .show-after .trust-badges-row { flex-wrap: wrap; gap: 16px; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR (audit navigation) -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="../index.html">&larr; Retour aux recommandations</a>
+        </div>
+        <div class="top-bar-right">
+            <span class="badge-reco">CRO #7.1 #7.2</span>
+            <button class="toggle-btn avant" id="toggleBtn" onclick="toggleView()">VOIR APR&Egrave;S</button>
+        </div>
+    </div>
+
+    <div class="page-wrapper" id="pageWrapper">
+
+        <!-- ANNOUNCEMENT BAR -->
+        <div class="announcement-bar">
+            Europe: free shipping on all orders over 125&euro;. Worldwide: free shipping on all orders over &euro;150.
+        </div>
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="header-logo">
+                <img src="https://www.helascaps.com/cdn/shop/files/helas.png" alt="H&eacute;las">
+            </div>
+            <ul class="header-nav">
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Lookbook</a></li>
+                <li><a href="#">Mixtapes</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">&Agrave; propos</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <div class="header-icons">
+                <span>&#128269;</span>
+                <span>&#128100;</span>
+                <span>&#128722; (0)</span>
+            </div>
+        </header>
+
+        <!-- SEARCH & RESULTS -->
+        <div class="search-section">
+            <!-- SEARCH BAR -->
+            <div class="search-bar-wrapper">
+                <input type="text" class="search-bar" value="hoop" placeholder="Rechercher...">
+                <button class="search-icon-btn">&#128269;</button>
+
+                <!-- CRO #7.2: Autocomplete dropdown (APRES only) -->
+                <div class="autocomplete-dropdown cro-element">
+                    <div class="autocomplete-section">
+                        <div class="autocomplete-section-title">Suggestions</div>
+                        <div class="autocomplete-item">
+                            <span>&#128269;</span>
+                            <span><span class="highlight">hoop</span> quarter zip</span>
+                            <span class="autocomplete-arrow">&rarr;</span>
+                        </div>
+                        <div class="autocomplete-item">
+                            <span>&#128269;</span>
+                            <span><span class="highlight">hoop</span> sport shorts</span>
+                            <span class="autocomplete-arrow">&rarr;</span>
+                        </div>
+                        <div class="autocomplete-item">
+                            <span>&#128269;</span>
+                            <span><span class="highlight">hoop</span> cap</span>
+                            <span class="autocomplete-arrow">&rarr;</span>
+                        </div>
+                    </div>
+                    <div class="autocomplete-section">
+                        <div class="autocomplete-section-title">Cat&eacute;gories</div>
+                        <div class="autocomplete-item">
+                            <span>&#128193;</span>
+                            <span>Jackets</span>
+                            <span class="autocomplete-arrow">&rarr;</span>
+                        </div>
+                        <div class="autocomplete-item">
+                            <span>&#128193;</span>
+                            <span>Shorts</span>
+                            <span class="autocomplete-arrow">&rarr;</span>
+                        </div>
+                        <div class="autocomplete-item">
+                            <span>&#128193;</span>
+                            <span>Caps</span>
+                            <span class="autocomplete-arrow">&rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-results-title">3 r&eacute;sultats pour &laquo; hoop &raquo;</div>
+
+            <!-- AVANT: Basic results grid -->
+            <div class="results-grid-basic cro-hide-after">
+                <a class="product-card" href="#">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/HOOP_QUARTER_ZIP_BLUE_BLACK_24508.jpg" alt="Hoop Quarter Zip">
+                    </div>
+                    <div class="product-card-name">Hoop Quarter Zip Blue/Black</div>
+                    <div class="product-card-price">115,00&euro;</div>
+                </a>
+                <a class="product-card" href="#">
+                    <div class="product-card-img">
+                        <img src="https://www.helascaps.com/cdn/shop/files/HOOP_SPORT_SHORTS_BLACK_24469.jpg" alt="Hoop Sport Shorts">
+                    </div>
+                    <div class="product-card-name">Hoop Sport Shorts Black</div>
+                    <div class="product-card-price">80,00&euro;</div>
+                </a>
+                <a class="product-card" href="#">
+                    <div class="product-card-img">
+                        <div style="width:100%; height:100%; background:#e0e0e0; display:flex; align-items:center; justify-content:center; color:#999; font-size:12px;">Image non disponible</div>
+                    </div>
+                    <div class="product-card-name">Hoop Cap Blue/Black</div>
+                    <div class="product-card-price">45,00&euro;</div>
+                </a>
+            </div>
+
+            <!-- APRES: Enhanced results with filters -->
+            <div class="results-enhanced cro-element">
+                <!-- FILTERS SIDEBAR -->
+                <aside class="filters-sidebar">
+                    <div class="filter-group">
+                        <div class="filter-group-title">Cat&eacute;gorie</div>
+                        <label class="filter-option">
+                            <input type="checkbox" checked> Jackets <span class="filter-count">1</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" checked> Shorts <span class="filter-count">1</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" checked> Caps <span class="filter-count">1</span>
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox"> T-shirts <span class="filter-count">0</span>
+                        </label>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-group-title">Taille</div>
+                        <label class="filter-option">
+                            <input type="checkbox"> XS
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" checked> S
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" checked> M
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox" checked> L
+                        </label>
+                        <label class="filter-option">
+                            <input type="checkbox"> XL
+                        </label>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-group-title">Prix</div>
+                        <div class="filter-range">
+                            <input type="text" value="0&euro;" readonly>
+                            <span>&mdash;</span>
+                            <input type="text" value="150&euro;" readonly>
+                        </div>
+                    </div>
+                    <div class="filter-group" style="border-bottom: none; padding-bottom: 0;">
+                        <div class="filter-group-title">Couleur</div>
+                        <div class="color-swatches">
+                            <div class="color-swatch active" style="background: #1c1c1c;" title="Noir"></div>
+                            <div class="color-swatch" style="background: #2563eb;" title="Bleu"></div>
+                            <div class="color-swatch" style="background: #fff; border: 1px solid #ddd;" title="Blanc"></div>
+                            <div class="color-swatch" style="background: #dc2626;" title="Rouge"></div>
+                            <div class="color-swatch" style="background: #16a34a;" title="Vert"></div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- ENHANCED PRODUCT CARDS -->
+                <div class="results-grid-enhanced">
+                    <a class="product-card-enhanced" href="#">
+                        <div class="product-card-img">
+                            <img src="https://www.helascaps.com/cdn/shop/files/HOOP_QUARTER_ZIP_BLUE_BLACK_24508.jpg" alt="Hoop Quarter Zip">
+                            <button class="quick-add-btn">+ Ajout rapide</button>
+                        </div>
+                        <div class="card-rating">
+                            <span class="card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+                            <span class="card-rating-count">(42)</span>
+                        </div>
+                        <div class="product-card-name">Hoop Quarter Zip Blue/Black</div>
+                        <div class="product-card-price">115,00&euro;</div>
+                    </a>
+                    <a class="product-card-enhanced" href="#">
+                        <div class="product-card-img">
+                            <img src="https://www.helascaps.com/cdn/shop/files/HOOP_SPORT_SHORTS_BLACK_24469.jpg" alt="Hoop Sport Shorts">
+                            <button class="quick-add-btn">+ Ajout rapide</button>
+                        </div>
+                        <div class="card-rating">
+                            <span class="card-stars">&starf;&starf;&starf;&starf;&star;</span>
+                            <span class="card-rating-count">(28)</span>
+                        </div>
+                        <div class="product-card-name">Hoop Sport Shorts Black</div>
+                        <div class="product-card-price">80,00&euro;</div>
+                    </a>
+                    <a class="product-card-enhanced" href="#">
+                        <div class="product-card-img">
+                            <div style="width:100%; height:100%; background:#e0e0e0; display:flex; align-items:center; justify-content:center; color:#999; font-size:12px;">Image non disponible</div>
+                            <button class="quick-add-btn">+ Ajout rapide</button>
+                        </div>
+                        <div class="card-rating">
+                            <span class="card-stars">&starf;&starf;&starf;&starf;&starf;</span>
+                            <span class="card-rating-count">(15)</span>
+                        </div>
+                        <div class="product-card-name">Hoop Cap Blue/Black</div>
+                        <div class="product-card-price">45,00&euro;</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- CRO #7.1: Trust badges row (APRES only) -->
+        <div class="trust-badges-row cro-element">
+            <div class="trust-badge">&#128666; Livraison rapide</div>
+            <div class="trust-badge">&#8617;&#65039; Retours gratuits 14j</div>
+            <div class="trust-badge">&#128274; Paiement s&eacute;curis&eacute;</div>
+            <div class="trust-badge">&#11088; 4.8/5 satisfaction</div>
+        </div>
+
+        <!-- FOOTER AVANT -->
+        <footer class="site-footer footer-before">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p style="color:#999; font-size:12px; margin-bottom:12px;">Sign up to our newsletter to receive exclusive offers.</p>
+                    <div style="display:flex; gap:0;">
+                        <input type="email" placeholder="Email" style="flex:1; padding:10px; border:1px solid #444; background:#333; color:#fff; font-size:12px; border-right:none;">
+                        <button style="padding:10px 16px; background:#fff; color:#1c1c1c; border:none; font-size:11px; font-weight:bold; cursor:pointer;">OK</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Information</h4>
+                    <a href="#">Delivery &amp; Returns</a>
+                    <a href="#">Terms and conditions</a>
+                    <a href="#">Contact &amp; FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow us</h4>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">Vimeo</a>
+                </div>
+            </div>
+            <div class="footer-bottom">&copy; 2026 H&Eacute;LAS &mdash; Made by EasyEshop</div>
+        </footer>
+
+        <!-- FOOTER APRES (CRO #7.1: Footer enrichi) -->
+        <footer class="site-footer footer-after">
+            <div class="footer-content-rich">
+                <div class="footer-col-rich">
+                    <h4>Newsletter</h4>
+                    <p>Inscrivez-vous pour recevoir nos offres exclusives, nouveaut&eacute;s et acc&egrave;s anticip&eacute; aux drops.</p>
+                    <div class="footer-newsletter-rich">
+                        <input type="email" placeholder="Votre adresse email">
+                        <button>S'inscrire</button>
+                    </div>
+                    <div class="footer-social-rich">
+                        <a href="#" title="Facebook">f</a>
+                        <a href="#" title="Instagram">ig</a>
+                        <a href="#" title="YouTube">yt</a>
+                        <a href="#" title="Vimeo">vi</a>
+                    </div>
+                    <div class="payment-methods">
+                        <span class="payment-badge">VISA</span>
+                        <span class="payment-badge">MC</span>
+                        <span class="payment-badge">Apple Pay</span>
+                        <span class="payment-badge">PayPal</span>
+                    </div>
+                </div>
+                <div class="footer-col-rich">
+                    <h4>Boutique</h4>
+                    <a href="#">Shop All</a>
+                    <a href="#">Nouvelles Arriv&eacute;es</a>
+                    <a href="#">Bestsellers</a>
+                    <a href="#">Classics</a>
+                    <a href="#">Collabs</a>
+                </div>
+                <div class="footer-col-rich">
+                    <h4>Aide</h4>
+                    <a href="#">Livraison &amp; Retours</a>
+                    <a href="#">Guide des tailles</a>
+                    <a href="#">FAQ</a>
+                    <a href="#">Contact</a>
+                    <a href="#">Suivi de commande</a>
+                </div>
+                <div class="footer-col-rich">
+                    <h4>&Agrave; propos</h4>
+                    <a href="#">Notre histoire</a>
+                    <a href="#">Lookbook</a>
+                    <a href="#">Mixtapes</a>
+                    <a href="#">Presse</a>
+                </div>
+            </div>
+            <div class="footer-bottom-rich">&copy; 2026 H&Eacute;LAS &mdash; Made by EasyEshop</div>
+        </footer>
+    </div>
+
+    <script>
+        let isAfter = false;
+
+        function toggleView() {
+            isAfter = !isAfter;
+            const wrapper = document.getElementById('pageWrapper');
+            const btn = document.getElementById('toggleBtn');
+
+            if (isAfter) {
+                wrapper.classList.add('show-after');
+                btn.textContent = 'VOIR AVANT';
+                btn.classList.remove('avant');
+                btn.classList.add('apres');
+            } else {
+                wrapper.classList.remove('show-after');
+                btn.textContent = 'VOIR APR\u00c8S';
+                btn.classList.remove('apres');
+                btn.classList.add('avant');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
