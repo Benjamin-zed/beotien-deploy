@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche Produit — Avant / Après — Audit CRO Hélas</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1c1c1c; background: #fff; }
+
+        /* TOP BAR */
+        .top-bar { position: fixed; top: 0; left: 0; right: 0; height: 50px; background: #1c1c1c; color: #fff; z-index: 10000; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; font-size: 13px; }
+        .top-bar-left { display: flex; align-items: center; gap: 12px; }
+        .top-bar-left a { color: #fff; text-decoration: none; font-size: 12px; opacity: 0.7; transition: opacity 0.3s; }
+        .top-bar-left a:hover { opacity: 1; }
+        .top-bar-left img { height: 22px; }
+        .top-bar-right { display: flex; align-items: center; gap: 16px; }
+        .badge-reco { font-size: 10px; background: rgba(255,255,255,0.15); padding: 3px 8px; border-radius: 3px; }
+
+        .toggle-btn { padding: 8px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; transition: all 0.3s; }
+        .toggle-btn.avant { background: #F97316; color: #fff; }
+        .toggle-btn.apres { background: #22c55e; color: #fff; }
+
+        /* PAGE WRAPPER */
+        .page-wrapper { margin-top: 50px; }
+
+        /* ANNOUNCEMENT BAR */
+        .announcement-bar { background: #1c1c1c; color: #fff; padding: 10px 40px; text-align: center; font-size: 12px; letter-spacing: 0.3px; }
+
+        /* HEADER */
+        .site-header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 50px; z-index: 9000; }
+        .header-logo img { height: 36px; }
+        .header-nav { display: flex; gap: 35px; list-style: none; font-size: 13px; font-weight: 500; }
+        .header-nav a { color: #1c1c1c; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-nav a:hover { opacity: 0.6; }
+        .header-icons { display: flex; gap: 20px; font-size: 14px; color: #1c1c1c; align-items: center; }
+        .header-icons span { cursor: pointer; }
+
+        /* PRODUCT LAYOUT */
+        .product-section { max-width: 1200px; margin: 0 auto; padding: 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+
+        /* GALLERY */
+        .gallery { display: flex; flex-direction: column; gap: 10px; }
+        .gallery-main { width: 100%; aspect-ratio: 1; background: #f5f5f5; overflow: hidden; }
+        .gallery-main img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
+        .gallery-thumbs { display: flex; gap: 8px; }
+        .gallery-thumb { width: 70px; height: 70px; background: #f5f5f5; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s; }
+        .gallery-thumb.active { border-color: #1c1c1c; }
+        .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* PRODUCT INFO */
+        .product-info { display: flex; flex-direction: column; }
+        .product-brand { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+        .product-title { font-size: 22px; font-weight: bold; margin-bottom: 14px; letter-spacing: 0.3px; line-height: 1.3; }
+        .product-price { font-size: 20px; font-weight: bold; margin-bottom: 20px; }
+        .product-desc { font-size: 13px; line-height: 1.7; color: #555; margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px solid #e8e8e8; }
+
+        /* SIZES */
+        .size-label { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .size-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 24px; }
+        .size-btn { padding: 12px; border: 1px solid #e0e0e0; text-align: center; cursor: pointer; font-size: 12px; font-weight: 500; background: #fff; transition: all 0.2s; }
+        .size-btn:hover { border-color: #1c1c1c; }
+        .size-btn.selected { background: #1c1c1c; color: #fff; border-color: #1c1c1c; }
+        .size-btn.out-of-stock { opacity: 0.35; text-decoration: line-through; cursor: not-allowed; }
+
+        /* ADD TO CART */
+        .add-to-cart { width: 100%; padding: 16px; background: #1c1c1c; color: #fff; border: none; cursor: pointer; font-size: 13px; font-weight: bold; letter-spacing: 1.5px; text-transform: uppercase; transition: background 0.3s; margin-bottom: 24px; }
+        .add-to-cart:hover { background: #333; }
+
+        /* ACCORDION */
+        .accordion { border-top: 1px solid #e8e8e8; }
+        .accordion-item { border-bottom: 1px solid #e8e8e8; }
+        .accordion-header { padding: 16px 0; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; user-select: none; text-transform: uppercase; letter-spacing: 0.3px; }
+        .accordion-header:hover { color: #666; }
+        .accordion-icon { transition: transform 0.3s; font-size: 10px; }
+        .accordion-header.open .accordion-icon { transform: rotate(180deg); }
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; font-size: 13px; line-height: 1.7; color: #555; }
+        .accordion-content.open { max-height: 500px; padding-bottom: 16px; }
+
+        /* FOOTER */
+        .site-footer { background: #1c1c1c; color: #fff; padding: 50px 40px; margin-top: 80px; }
+        .footer-content { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px; font-size: 12px; }
+        .footer-col h4 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; color: #999; }
+        .footer-col a { color: #fff; text-decoration: none; display: block; margin-bottom: 8px; opacity: 0.7; }
+        .footer-col a:hover { opacity: 1; }
+        .footer-bottom { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; font-size: 11px; color: #666; }
+
+        /* ====== CRO ELEMENTS (hidden by default) ====== */
+        .cro-element { display: none !important; }
+        .show-after .cro-element { display: flex !important; }
+        .show-after .cro-block { display: block !important; }
+
+        /* Reviews badge */
+        .reviews-badge { align-items: center; gap: 8px; margin-bottom: 14px; font-size: 13px; }
+        .stars { color: #f59e0b; letter-spacing: 1px; }
+        .reviews-count { color: #666; font-size: 12px; }
+        .reviews-count a { color: #1c1c1c; text-decoration: underline; }
+
+        /* Trust icons */
+        .trust-icons { flex-direction: column; gap: 10px; margin-bottom: 20px; padding: 16px; background: #f9fafb; border-radius: 6px; border: 1px solid #e8e8e8; }
+        .trust-item { align-items: center; gap: 10px; font-size: 12px; color: #444; display: flex; }
+        .trust-icon { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; font-size: 12px; }
+
+        /* Urgency */
+        .urgency-bar { padding: 12px 16px; background: #fef3c7; border-left: 3px solid #f59e0b; margin-bottom: 20px; font-size: 12px; color: #92400e; font-weight: 500; }
+
+        /* Size guide link */
+        .size-guide-link { font-size: 11px; color: #F97316; cursor: pointer; text-decoration: underline; margin-bottom: 20px; display: none !important; }
+        .show-after .size-guide-link { display: inline-block !important; }
+
+        /* FAQ section */
+        .faq-section { display: none; }
+        .show-after .faq-section { display: block; }
+
+        /* Announcement bar after */
+        .announcement-after { display: none; }
+        .show-after .announcement-before { display: none; }
+        .show-after .announcement-after { display: flex; justify-content: center; gap: 40px; }
+        .announcement-after span { display: flex; align-items: center; gap: 6px; }
+
+        /* Notify me */
+        .notify-stock { display: none !important; }
+        .show-after .notify-stock { display: flex !important; align-items: center; gap: 8px; margin-top: -16px; margin-bottom: 20px; font-size: 11px; color: #F97316; cursor: pointer; }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .product-section { grid-template-columns: 1fr; padding: 20px; gap: 30px; }
+            .site-header { padding: 14px 20px; }
+            .header-nav { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+            .top-bar { padding: 0 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TOP BAR (audit navigation) -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="../index.html">← Retour aux recommandations</a>
+        </div>
+        <div class="top-bar-right">
+            <span class="badge-reco">CRO #1 #2 #3 #5 #6 #10 #15</span>
+            <button class="toggle-btn avant" id="toggleBtn" onclick="toggleView()">VOIR APRÈS</button>
+        </div>
+    </div>
+
+    <div class="page-wrapper" id="pageWrapper">
+
+        <!-- ANNOUNCEMENT BAR -->
+        <div class="announcement-bar">
+            <div class="announcement-before">Europe: free shipping on all orders over 125€. Worldwide: free shipping on all orders over €150.</div>
+            <div class="announcement-after">
+                <span>✓ Livraison gratuite en Europe dès 125€</span>
+                <span>↩ Retours gratuits sous 14 jours</span>
+                <span>🔒 Paiement 100% sécurisé</span>
+            </div>
+        </div>
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="header-logo">
+                <img src="https://www.helascaps.com/cdn/shop/files/helas.png" alt="Hélas">
+            </div>
+            <ul class="header-nav">
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Lookbook</a></li>
+                <li><a href="#">Mixtapes</a></li>
+                <li><a href="#">News</a></li>
+                <li><a href="#">À propos</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+            <div class="header-icons">
+                <span>🔍</span>
+                <span>👤</span>
+                <span>🛒 (0)</span>
+            </div>
+        </header>
+
+        <!-- PRODUCT -->
+        <div class="product-section">
+            <!-- GALLERY -->
+            <div class="gallery">
+                <div class="gallery-main">
+                    <img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg" alt="Jazzy Jeans Jacket" id="mainImage">
+                </div>
+                <div class="gallery-thumbs">
+                    <div class="gallery-thumb active" onclick="changeImg(0)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg" alt=""></div>
+                    <div class="gallery-thumb" onclick="changeImg(1)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24393.jpg" alt=""></div>
+                    <div class="gallery-thumb" onclick="changeImg(2)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24394.jpg" alt=""></div>
+                    <div class="gallery-thumb" onclick="changeImg(3)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24395.jpg" alt=""></div>
+                    <div class="gallery-thumb" onclick="changeImg(4)"><img src="https://www.helascaps.com/cdn/shop/files/SP26_JAZZYJEANSJACKETLIGHTBLUE_05.jpg" alt=""></div>
+                    <div class="gallery-thumb" onclick="changeImg(5)"><img src="https://www.helascaps.com/cdn/shop/files/SP26_JAZZYJEANSJACKETLIGHTBLUE_06.jpg" alt=""></div>
+                    <div class="gallery-thumb" onclick="changeImg(6)"><img src="https://www.helascaps.com/cdn/shop/files/SP26_JAZZYJEANSJACKETLIGHTBLUE_07.jpg" alt=""></div>
+                </div>
+            </div>
+
+            <!-- PRODUCT INFO -->
+            <div class="product-info">
+                <div class="product-brand">HÉLAS</div>
+                <h1 class="product-title">JAZZY JEANS JACKET LIGHT BLUE</h1>
+
+                <!-- CRO #1: Reviews / Social proof -->
+                <div class="reviews-badge cro-element">
+                    <span class="stars">★★★★★</span>
+                    <span class="reviews-count">4.8/5 — <a href="#reviews">324 avis</a></span>
+                </div>
+
+                <div class="product-price">145,00€</div>
+
+                <!-- CRO #2: Trust signals -->
+                <div class="trust-icons cro-element">
+                    <div class="trust-item"><span class="trust-icon">🚚</span> Livraison gratuite en Europe dès 125€</div>
+                    <div class="trust-item"><span class="trust-icon">↩️</span> Retours gratuits sous 14 jours</div>
+                    <div class="trust-item"><span class="trust-icon">🔒</span> Paiement sécurisé (Visa, Mastercard, Apple Pay)</div>
+                    <div class="trust-item"><span class="trust-icon">⭐</span> Noté 4.8/5 par 324 clients</div>
+                </div>
+
+                <!-- CRO #6: Urgency / scarcity -->
+                <div class="urgency-bar cro-element">
+                    ⚡ Plus que 3 articles en stock — Taille XL épuisée
+                </div>
+
+                <div class="product-desc">
+                    WASHED DENIM JACKET WITH BUTTONED POCKETS. CURDUROY COLLAR DETAIL. JAZZY EMBROIDERED LOGO AT FRONT AND BACK SIDE. LEATHER PATCH DETAIL ON BACK HEM.<br>MATERIAL: 100% COTTON DENIM
+                </div>
+
+                <!-- CRO #5: FR translation visible in APRÈS -->
+                <div class="size-label">SIZE</div>
+                <div class="size-grid">
+                    <div class="size-btn" onclick="selectSize(this)">XS</div>
+                    <div class="size-btn" onclick="selectSize(this)">S</div>
+                    <div class="size-btn" onclick="selectSize(this)">M</div>
+                    <div class="size-btn" onclick="selectSize(this)">L</div>
+                    <div class="size-btn out-of-stock">XL</div>
+                </div>
+
+                <!-- CRO #15: Notify when back in stock -->
+                <div class="notify-stock cro-element">
+                    <span>🔔</span> <a href="#" style="color:#F97316; text-decoration:underline; font-size:11px;">M'alerter quand XL sera de retour en stock</a>
+                </div>
+
+                <!-- CRO #3: Size guide link -->
+                <a class="size-guide-link">📏 Consulter le guide des tailles →</a>
+
+                <button class="add-to-cart">ADD TO CART</button>
+
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Size Guide</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>XS:</strong> Chest 84cm / Length 62cm<br>
+                            <strong>S:</strong> Chest 88cm / Length 64cm<br>
+                            <strong>M:</strong> Chest 92cm / Length 66cm<br>
+                            <strong>L:</strong> Chest 96cm / Length 68cm<br>
+                            <strong>XL:</strong> Chest 100cm / Length 70cm</p>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <span>Shipping & Returns</span>
+                            <span class="accordion-icon">▼</span>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>France:</strong> 8,00€<br>
+                            <strong>Belgium, Germany, Italy, Netherlands, Spain, UK:</strong> 10,00€<br>
+                            <strong>Europe:</strong> 15,00€<br>
+                            <strong>Asia, North America:</strong> 25,00€<br>
+                            <strong>Worldwide:</strong> 30,00€<br><br>
+                            Returns can be made within 14 days of delivery.</p>
+                        </div>
+                    </div>
+
+                    <!-- CRO #10: FAQ produit -->
+                    <div class="faq-section">
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion(this)">
+                                <span>Questions fréquentes</span>
+                                <span class="accordion-icon">▼</span>
+                            </div>
+                            <div class="accordion-content">
+                                <p><strong>Quelle est la matière exacte ?</strong><br>
+                                Denim 100% coton avec col en velours côtelé.<br><br>
+                                <strong>Comment taille cette veste ?</strong><br>
+                                Coupe regular. Si vous hésitez entre deux tailles, prenez la taille supérieure.<br><br>
+                                <strong>Peut-on laver cette veste en machine ?</strong><br>
+                                Oui, lavage à froid (30°C) recommandé. Éviter le sèche-linge.<br><br>
+                                <strong>Quel est le délai de livraison ?</strong><br>
+                                3-5 jours ouvrables pour la France et l'Europe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h4>Newsletter</h4>
+                    <p style="color:#999; font-size:12px; margin-bottom:12px;">Sign up to our newsletter to receive exclusive offers.</p>
+                    <div style="display:flex; gap:0;">
+                        <input type="email" placeholder="Email" style="flex:1; padding:10px; border:1px solid #444; background:#333; color:#fff; font-size:12px; border-right:none;">
+                        <button style="padding:10px 16px; background:#fff; color:#1c1c1c; border:none; font-size:11px; font-weight:bold; cursor:pointer;">OK</button>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Information</h4>
+                    <a href="#">Delivery & Returns</a>
+                    <a href="#">Terms and conditions</a>
+                    <a href="#">Contact & FAQ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>Follow us</h4>
+                    <a href="#">Facebook</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">YouTube</a>
+                    <a href="#">Vimeo</a>
+                </div>
+            </div>
+            <div class="footer-bottom">© 2026 HÉLAS — Made by EasyEshop</div>
+        </footer>
+    </div>
+
+    <script>
+        const images = [
+            'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg',
+            'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24393.jpg',
+            'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24394.jpg',
+            'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24395.jpg',
+            'https://www.helascaps.com/cdn/shop/files/SP26_JAZZYJEANSJACKETLIGHTBLUE_05.jpg',
+            'https://www.helascaps.com/cdn/shop/files/SP26_JAZZYJEANSJACKETLIGHTBLUE_06.jpg',
+            'https://www.helascaps.com/cdn/shop/files/SP26_JAZZYJEANSJACKETLIGHTBLUE_07.jpg'
+        ];
+
+        let isAfter = false;
+
+        function changeImg(idx) {
+            document.getElementById('mainImage').src = images[idx];
+            document.querySelectorAll('.gallery-thumb').forEach((t, i) => t.classList.toggle('active', i === idx));
+        }
+
+        function selectSize(el) {
+            if (el.classList.contains('out-of-stock')) return;
+            document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function toggleAccordion(header) {
+            header.classList.toggle('open');
+            header.nextElementSibling.classList.toggle('open');
+        }
+
+        function toggleView() {
+            isAfter = !isAfter;
+            const wrapper = document.getElementById('pageWrapper');
+            const btn = document.getElementById('toggleBtn');
+
+            if (isAfter) {
+                wrapper.classList.add('show-after');
+                btn.textContent = 'VOIR AVANT';
+                btn.classList.remove('avant');
+                btn.classList.add('apres');
+            } else {
+                wrapper.classList.remove('show-after');
+                btn.textContent = 'VOIR APRÈS';
+                btn.classList.remove('apres');
+                btn.classList.add('avant');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
