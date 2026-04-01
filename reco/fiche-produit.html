@@ -119,6 +119,10 @@
         .show-after .announcement-after { display: flex; justify-content: center; gap: 40px; }
         .announcement-after span { display: flex; align-items: center; gap: 6px; }
 
+        /* Promo banner */
+        .promo-banner { display: none; background: #F97316; color: #fff; text-align: center; padding: 10px 40px; font-size: 13px; font-weight: bold; letter-spacing: 0.3px; }
+        .show-after .promo-banner { display: block; }
+
         /* Notify me */
         .notify-stock { display: none !important; }
         .show-after .notify-stock { display: flex !important; align-items: center; gap: 8px; margin-top: -16px; margin-bottom: 20px; font-size: 11px; color: #F97316; cursor: pointer; }
@@ -152,11 +156,14 @@
         <div class="announcement-bar">
             <div class="announcement-before">Europe: free shipping on all orders over 125€. Worldwide: free shipping on all orders over €150.</div>
             <div class="announcement-after">
-                <span>🎁 -10% sur votre 1ère commande avec le code <strong>BIENVENUE10</strong></span>
-                <span>✓ Livraison gratuite dès 125€</span>
-                <span>↩ Retours gratuits 14j</span>
+                <span>✓ Livraison gratuite en Europe dès 125€</span>
+                <span>↩ Retours gratuits sous 14 jours</span>
+                <span>🔒 Paiement 100% sécurisé</span>
             </div>
         </div>
+
+        <!-- PROMO BANNER (APRÈS only) -->
+        <div class="promo-banner">🎁 -10% sur votre 1ère commande avec le code <strong>BIENVENUE10</strong></div>
 
         <!-- HEADER -->
         <header class="site-header">
