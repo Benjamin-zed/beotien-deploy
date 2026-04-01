@@ -33,6 +33,10 @@
         .show-after .announcement-after { display: flex; justify-content: center; gap: 40px; }
         .announcement-after span { display: flex; align-items: center; gap: 6px; }
 
+        /* Promo banner */
+        .promo-banner { display: none; background: #F97316; color: #fff; text-align: center; padding: 10px 40px; font-size: 13px; font-weight: bold; letter-spacing: 0.3px; }
+        .show-after .promo-banner { display: block; }
+
         /* HEADER */
         .site-header { background: #fff; border-bottom: 1px solid #e8e8e8; padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 50px; z-index: 9000; }
         .header-logo img { height: 36px; }
@@ -145,11 +149,14 @@
         <div class="announcement-bar">
             <div class="announcement-before">Europe: free shipping on all orders over 125&euro;. Worldwide: free shipping on all orders over &euro;150.</div>
             <div class="announcement-after">
-                <span>&check; Livraison gratuite d&egrave;s 125&euro;</span>
-                <span>&#128293; Bestsellers de la saison</span>
-                <span>&#128761; Depuis 2012 &mdash; Paris</span>
+                <span>✓ Livraison gratuite en Europe dès 125€</span>
+                <span>↩ Retours gratuits sous 14 jours</span>
+                <span>🔒 Paiement 100% sécurisé</span>
             </div>
         </div>
+
+        <!-- PROMO BANNER (APRÈS only) -->
+        <div class="promo-banner">🎁 -10% sur votre 1ère commande avec le code <strong>BIENVENUE10</strong></div>
 
         <!-- HEADER -->
         <header class="site-header">
