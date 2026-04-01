@@ -4,455 +4,190 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Audit CRO — Hélas Caps</title>
-
-    <!-- Real Shopify Theme CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://www.helascaps.com/cdn/shop/t/5/assets/theme.css?v=62305568649964461321761045775">
-    <link rel="stylesheet" href="https://www.helascaps.com/cdn/shop/t/5/assets/custom.css?v=151692140091049433951761047985">
-
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: Helvetica, Arial, sans-serif; color: #1c1c1c; background: #fff; }
+        body { font-family: Helvetica, Arial, sans-serif; color: #1c1c1c; background: #f9f9f9; }
 
-        /* DEMO NAV */
-        .demo-nav { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: #1c1c1c; color: #fff; z-index: 10000 !important; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 14px; }
+        /* NAV */
+        .demo-nav { position: fixed; top: 0; left: 0; right: 0; height: 70px; background: #1c1c1c; color: #fff; z-index: 10000; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); font-size: 14px; }
         .demo-nav-brand { display: flex; align-items: center; gap: 15px; font-weight: bold; font-size: 16px; letter-spacing: 1px; }
         .demo-nav-brand img { height: 35px; }
-        .demo-nav-links { display: flex; gap: 35px; list-style: none; }
-        .demo-nav-links a { color: #fff; text-decoration: none; transition: color 0.3s; cursor: pointer; }
-        .demo-nav-links a:hover, .demo-nav-links a.active { color: #F97316; }
 
-        main { margin-top: 70px; isolation: isolate; }
+        main { margin-top: 70px; padding: 60px 40px 80px; max-width: 1100px; margin-left: auto; margin-right: auto; }
 
-        /* HERO */
-        .hero-section { background: linear-gradient(135deg, #1c1c1c 0%, #2d2d2d 100%); color: #fff; padding: 100px 40px; text-align: center; min-height: 500px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .hero-section h1 { font-size: 48px; font-weight: bold; margin-bottom: 20px; letter-spacing: 2px; }
-        .hero-section .subtitle { font-size: 18px; margin-bottom: 40px; color: #ccc; max-width: 600px; line-height: 1.6; }
-        .hero-cta { display: inline-block; padding: 14px 40px; background: #F97316; color: #fff; text-decoration: none; border: none; border-radius: 4px; font-size: 14px; font-weight: bold; cursor: pointer; transition: background 0.3s; letter-spacing: 1px; }
-        .hero-cta:hover { background: #e06300; }
+        /* PAGE HEADER */
+        .page-header { text-align: center; margin-bottom: 60px; }
+        .page-header h1 { font-size: 36px; font-weight: bold; letter-spacing: 1px; margin-bottom: 12px; }
+        .page-header p { font-size: 16px; color: #666; max-width: 600px; margin: 0 auto; }
 
-        /* SECTIONS */
-        .demo-section { padding: 80px 40px; border-bottom: 1px solid #e0e0e0; background: #fff; position: relative; }
-        .demo-section h2 { font-size: 32px; margin-bottom: 10px; font-weight: bold; letter-spacing: 1px; }
-        .demo-section .section-desc { color: #666; margin-bottom: 40px; font-size: 14px; }
+        /* GROUP */
+        .group { margin-bottom: 50px; }
+        .group-header { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; cursor: pointer; }
+        .group-header:hover .group-title { color: #F97316; }
+        .group-number { width: 44px; height: 44px; background: #1c1c1c; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: bold; flex-shrink: 0; }
+        .group-title { font-size: 22px; font-weight: bold; transition: color 0.2s; }
+        .group-link { margin-left: auto; padding: 8px 20px; background: #F97316; color: #fff; text-decoration: none; border-radius: 4px; font-size: 12px; font-weight: bold; letter-spacing: 0.5px; transition: background 0.3s; flex-shrink: 0; }
+        .group-link:hover { background: #e06300; }
+        .group-link.disabled { background: #ccc; cursor: default; pointer-events: none; }
 
-        .comparison-toggle { position: absolute; top: 20px; right: 20px; z-index: 100; background: #F97316; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-size: 12px; font-weight: bold; transition: background 0.3s; }
-        .comparison-toggle:hover { background: #e06300; }
+        /* SUB-RECOS */
+        .sub-recos { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+        .sub-reco { background: #fff; padding: 20px; border-radius: 6px; border-left: 4px solid #e0e0e0; transition: all 0.2s; }
+        .sub-reco:hover { box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
 
-        /* HOMEPAGE */
-        .announcement-bar { background: #1c1c1c; color: #fff; padding: 12px 40px; text-align: center; font-size: 12px; letter-spacing: 0.5px; }
-        .announcement-bar-toggle { display: none; align-items: center; justify-content: space-between; gap: 20px; }
-        .announcement-bar-item { flex: 1; }
-        .homepage.show-after .announcement-bar-toggle { display: flex; }
-        .homepage.show-after .announcement-bar:not(.announcement-bar-toggle) { display: none; }
+        .sub-reco.critique { border-left-color: #ef4444; }
+        .sub-reco.critique .sub-badge { background: #ef4444; }
+        .sub-reco.eleve { border-left-color: #f97316; }
+        .sub-reco.eleve .sub-badge { background: #f97316; }
+        .sub-reco.moyen { border-left-color: #eab308; }
+        .sub-reco.moyen .sub-badge { background: #eab308; }
+        .sub-reco.bonus { border-left-color: #06b6d4; }
+        .sub-reco.bonus .sub-badge { background: #06b6d4; }
 
-        .promo-bar { background: #F97316; color: #fff; text-align: center; padding: 10px 40px; font-size: 13px; font-weight: bold; letter-spacing: 0.5px; }
-        .promo-bar a { color: #fff; text-decoration: underline; margin-left: 8px; }
-
-        .shopify-section--header { background: #fff; border-bottom: 1px solid #e0e0e0; }
-        .header-wrapper { display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; }
-        .header-logo img { height: 40px; }
-        .header-nav { display: flex; gap: 40px; list-style: none; font-size: 14px; }
-        .header-nav a { color: #1c1c1c; text-decoration: none; transition: color 0.3s; }
-        .header-nav a:hover { color: #F97316; }
-        .header-right { display: flex; gap: 20px; font-size: 14px; }
-
-        .slideshow { width: 100%; height: 500px; overflow: hidden; position: relative; }
-        .slideshow-image { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-        .product-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; padding: 40px 0; }
-        .product-card { display: flex; flex-direction: column; position: relative; }
-        .product-card__figure { aspect-ratio: 1; overflow: hidden; background: #f5f5f5; position: relative; margin-bottom: 12px; }
-        .product-card__media { position: relative; width: 100%; height: 100%; }
-        .product-card__image--primary { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.3s; }
-        .product-card__image--secondary { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.3s; }
-        .product-card:hover .product-card__image--primary { opacity: 0; }
-        .product-card:hover .product-card__image--secondary { opacity: 1; }
-        .product-card__info { text-align: left; }
-        .product-title { font-size: 13px; font-weight: bold; margin-bottom: 6px; line-height: 1.3; }
-        .price-list { font-size: 13px; color: #666; }
-
-        .product-card.avec-cro { position: relative; }
-        .product-card.avec-cro .urgency-badge { position: absolute; top: 8px; right: 8px; background: #ef4444; color: #fff; padding: 4px 8px; border-radius: 2px; font-size: 11px; font-weight: bold; z-index: 10; display: none; }
-        .product-card.avec-cro .star-rating { display: none; margin-bottom: 6px; font-size: 12px; }
-        .product-card.avec-cro .star-rating.show { display: block; }
-        .product-card.avec-cro .urgency-badge.show { display: block; }
-
-        /* PRODUCT PAGE */
-        .product-page { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; padding: 40px 0; }
-        .product-gallery { display: flex; flex-direction: column; gap: 12px; }
-        .product-gallery__main { aspect-ratio: 1; background: #f5f5f5; overflow: hidden; }
-        .product-gallery__main img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; }
-        .product-gallery__thumbnails { display: flex; gap: 10px; }
-        .product-gallery__thumbnail { width: 60px; height: 60px; background: #f5f5f5; border: 1px solid #e0e0e0; overflow: hidden; cursor: pointer; transition: border-color 0.3s; }
-        .product-gallery__thumbnail:hover, .product-gallery__thumbnail.active { border-color: #1c1c1c; }
-        .product-gallery__thumbnail img { width: 100%; height: 100%; object-fit: cover; }
-
-        .product-info { display: flex; flex-direction: column; }
-        .product-info__title { font-size: 24px; font-weight: bold; margin-bottom: 12px; letter-spacing: 0.5px; }
-        .product-info__price { font-size: 20px; margin-bottom: 20px; font-weight: bold; }
-        .product-info__trust-icons { display: none; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0; font-size: 12px; }
-        .product-info__trust-icons.show { display: flex; flex-direction: column; gap: 10px; }
-        .trust-icon { display: flex; align-items: center; gap: 8px; }
-        .trust-icon-badge { width: 20px; height: 20px; background: #F97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; font-size: 11px; }
-        .product-info__description { font-size: 13px; line-height: 1.6; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #e0e0e0; }
-        .product-info__size-selector { margin-bottom: 20px; }
-        .size-selector-label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 10px; }
-        .size-selector-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 12px; }
-        .size-option { padding: 10px; border: 1px solid #e0e0e0; text-align: center; cursor: pointer; font-size: 12px; transition: all 0.3s; background: #fff; }
-        .size-option:hover { border-color: #1c1c1c; }
-        .size-option.selected { background: #1c1c1c; color: #fff; border-color: #1c1c1c; }
-        .size-guide-link { font-size: 11px; color: #F97316; cursor: pointer; text-decoration: none; display: none; }
-        .size-guide-link.show { display: inline; }
-        .urgency-notice { display: none; padding: 12px; background: #fff3cd; border-left: 3px solid #ffc107; margin-bottom: 20px; font-size: 12px; color: #856404; }
-        .urgency-notice.show { display: block; }
-        .add-to-cart-btn { width: 100%; padding: 14px; background: #1c1c1c; color: #fff; border: none; cursor: pointer; font-size: 13px; font-weight: bold; letter-spacing: 1px; transition: background 0.3s; margin-bottom: 20px; }
-        .add-to-cart-btn:hover { background: #2d2d2d; }
-
-        .product-info__accordion { border-top: 1px solid #e0e0e0; }
-        .accordion-item { border-bottom: 1px solid #e0e0e0; }
-        .accordion-header { padding: 16px 0; cursor: pointer; font-size: 13px; font-weight: bold; display: flex; justify-content: space-between; align-items: center; user-select: none; }
-        .accordion-header:hover { color: #F97316; }
-        .accordion-header .toggle-icon { transition: transform 0.3s; }
-        .accordion-header.open .toggle-icon { transform: rotate(180deg); }
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.3s; padding: 0; font-size: 13px; line-height: 1.6; }
-        .accordion-content.open { max-height: 500px; padding-bottom: 16px; }
-
-        .faq-accordion { display: none; margin-top: 20px; padding-top: 20px; border-top: 1px solid #e0e0e0; }
-        .faq-accordion.show { display: block; }
-
-        /* RECOMMENDATIONS */
-        #recommendations-section { background: #f9f9f9; }
-        .recommendations-intro { text-align: center; margin-bottom: 60px; }
-        .recommendations-intro p { font-size: 16px; color: #666; margin-bottom: 20px; }
-        .recommendation-filters { display: flex; justify-content: center; gap: 15px; margin-bottom: 40px; flex-wrap: wrap; }
-        .filter-btn { padding: 8px 16px; border: 1px solid #e0e0e0; background: #fff; cursor: pointer; border-radius: 4px; font-size: 12px; font-weight: bold; transition: all 0.3s; }
-        .filter-btn.active { background: #1c1c1c; color: #fff; border-color: #1c1c1c; }
-        .filter-btn:hover { border-color: #1c1c1c; }
-
-        .recommendations-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-        .recommendation-card { background: #fff; padding: 24px; border-radius: 4px; border-left: 4px solid #e0e0e0; transition: all 0.3s; cursor: pointer; }
-        .recommendation-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.1); transform: translateY(-2px); }
-
-        .recommendation-card.critique { border-left-color: #ef4444; }
-        .recommendation-card.critique .priority-badge { background: #ef4444; }
-        .recommendation-card.eleve { border-left-color: #f97316; }
-        .recommendation-card.eleve .priority-badge { background: #f97316; }
-        .recommendation-card.moyen { border-left-color: #eab308; }
-        .recommendation-card.moyen .priority-badge { background: #eab308; }
-        .recommendation-card.bonus { border-left-color: #06b6d4; }
-        .recommendation-card.bonus .priority-badge { background: #06b6d4; }
-
-        .recommendation-number { font-size: 12px; color: #999; margin-bottom: 8px; font-weight: bold; }
-        .priority-badge { display: inline-block; color: #fff; padding: 4px 10px; border-radius: 2px; font-size: 11px; font-weight: bold; margin-bottom: 12px; letter-spacing: 0.5px; }
-        .recommendation-card h3 { font-size: 15px; font-weight: bold; margin-bottom: 12px; line-height: 1.4; color: #1c1c1c; }
-        .recommendation-card p { font-size: 13px; color: #666; line-height: 1.5; margin-bottom: 12px; }
-        .impact-info { display: flex; gap: 20px; font-size: 11px; color: #999; border-top: 1px solid #e0e0e0; padding-top: 12px; margin-top: 12px; }
-        .impact-item { display: flex; flex-direction: column; gap: 4px; }
-        .impact-item strong { color: #1c1c1c; }
+        .sub-number { font-size: 11px; color: #999; font-weight: bold; margin-bottom: 6px; }
+        .sub-badge { display: inline-block; color: #fff; padding: 3px 8px; border-radius: 2px; font-size: 10px; font-weight: bold; margin-bottom: 8px; letter-spacing: 0.5px; }
+        .sub-reco h4 { font-size: 14px; font-weight: bold; margin-bottom: 8px; line-height: 1.4; }
+        .sub-reco p { font-size: 12px; color: #666; line-height: 1.5; margin: 0; }
+        .sub-impact { display: flex; gap: 16px; font-size: 11px; color: #999; border-top: 1px solid #f0f0f0; padding-top: 10px; margin-top: 10px; }
+        .sub-impact strong { color: #1c1c1c; }
 
         /* FOOTER */
         .demo-footer { background: #1c1c1c; color: #fff; padding: 40px; text-align: center; font-size: 13px; line-height: 1.8; }
-        .demo-footer p { margin-bottom: 12px; }
         .demo-footer a { color: #F97316; text-decoration: none; }
         .demo-footer a:hover { text-decoration: underline; }
 
-        /* RESPONSIVE */
         @media (max-width: 768px) {
             .demo-nav { padding: 0 20px; height: 60px; }
-            .demo-nav-links { gap: 15px; }
-            main { margin-top: 60px; }
-            .hero-section { padding: 60px 20px; }
-            .hero-section h1 { font-size: 32px; }
-            .demo-section { padding: 50px 20px; }
-            .product-page { grid-template-columns: 1fr; gap: 40px; }
-            .product-list { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
-            .recommendations-grid { grid-template-columns: 1fr; }
-            .size-selector-grid { grid-template-columns: repeat(4, 1fr); }
+            main { margin-top: 60px; padding: 40px 20px 60px; }
+            .page-header h1 { font-size: 26px; }
+            .group-header { flex-wrap: wrap; gap: 10px; }
+            .group-title { font-size: 18px; }
+            .group-link { margin-left: 0; }
+            .sub-recos { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- DEMO NAV -->
     <nav class="demo-nav">
         <div class="demo-nav-brand">
             <img src="https://www.helascaps.com/cdn/shop/files/helas-white.png" alt="Hélas">
             <span>CRO AUDIT</span>
         </div>
-        <ul class="demo-nav-links">
-            <li><a href="#hero" class="nav-link active">Accueil</a></li>
-            <li><a href="#homepage-section" class="nav-link">Homepage</a></li>
-            <li><a href="#product-section" class="nav-link">Fiche Produit</a></li>
-            <li><a href="#recommendations-section" class="nav-link">25 Recommandations</a></li>
-        </ul>
     </nav>
 
     <main>
-        <!-- HERO -->
-        <section id="hero" class="hero-section">
-            <h1>AUDIT CRO — HÉLAS CAPS</h1>
-            <p class="subtitle">Analyse complète de 25 opportunités d'optimisation pour augmenter les conversions. Découvrez les failles de l'expérience utilisateur et les solutions pour y remédier.</p>
-            <button class="hero-cta" onclick="document.querySelector('#recommendations-section').scrollIntoView({behavior:'smooth'})">Voir les 25 recommandations</button>
-        </section>
+        <div class="page-header">
+            <h1>25 Opportunités d'optimisation CRO</h1>
+            <p>Cliquez sur "Voir avant / après" pour visualiser l'impact de chaque groupe de recommandations.</p>
+        </div>
 
-        <!-- HOMEPAGE -->
-        <section id="homepage-section" class="demo-section">
-            <h2>Reconstruction Homepage</h2>
-            <p class="section-desc">Voir les améliorations CRO appliquées à la page d'accueil. Cliquez sur le bouton pour basculer entre AVANT et APRÈS.</p>
-            <button class="comparison-toggle" onclick="toggleHomepage()">AVANT / APRÈS</button>
-            <div class="homepage">
-                <div class="announcement-bar"><span id="announcement-text">Europe : livraison gratuite pour toute commande supérieure à 125 €</span><div class="announcement-bar-toggle"><div class="announcement-bar-item">✓ Europe : livraison gratuite pour toute commande supérieure à 125 €</div><div class="announcement-bar-item">🎁 Profitez du programme de fidélité (CRO #23)</div></div></div>
-                <div class="promo-bar">🎉 10% offert sur votre première commande avec le code <strong>HELAS10</strong><a href="#recommendations-section">En savoir plus</a></div>
-                <div class="shopify-section--header"><div class="header-wrapper"><div class="header-logo"><img src="https://www.helascaps.com/cdn/shop/files/helas.png" alt="Hélas"></div><ul class="header-nav"><li><a href="#shop">Shop</a></li><li><a href="#lookbook">Lookbook</a></li><li><a href="#mixtapes">Mixtapes</a></li><li><a href="#news">News</a></li><li><a href="#about">À propos</a></li><li><a href="#support">Support</a></li></ul><div class="header-right"><span>🔍</span><span>👤</span><span>🛒</span></div></div></div>
-                <div class="shopify-section--slideshow"><div class="slideshow"><img src="https://www.helascaps.com/cdn/shop/files/HELAS_SP26_SLIDERS_WEB10.jpg" alt="Slide 1" class="slideshow-image"></div></div>
-                <div class="product-list justify-center" style="padding: 40px;">
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg" alt="Jazzy Jeans Jacket Light Blue" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24393.jpg" alt="Jazzy Jeans Jacket Light Blue - Alt" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">JAZZY JEANS JACKET LIGHT BLUE</div><div class="price-list">145,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_PANTS_LIGHT_BLUE_24372.jpg" alt="Jazzy Jeans Pants Light Blue" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_PANTS_LIGHT_BLUE_24372.jpg" alt="Jazzy Jeans Pants Light Blue" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">JAZZY JEANS PANTS LIGHT BLUE</div><div class="price-list">115,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/DETENTE_TRACKSUIT_JACKET_BLACK_24349.jpg" alt="Détente Tracksuit Jacket Black" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/DETENTE_TRACKSUIT_JACKET_BLACK_24349.jpg" alt="Détente Tracksuit Jacket Black" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">DÉTENTE TRACKSUIT JACKET BLACK</div><div class="price-list">130,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/HOOP_QUARTER_ZIP_BLUE_BLACK_24508.jpg" alt="Hoop Quarter Zip" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/HOOP_QUARTER_ZIP_BLUE_BLACK_24508.jpg" alt="Hoop Quarter Zip" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">HOOP QUARTER ZIP BLUE/BLACK</div><div class="price-list">115,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/RAYMOND_QUARTER_ZIP_KNIT_STRIPED_MULTICO_24422.jpg" alt="Raymond Quarter Zip Knit" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/RAYMOND_QUARTER_ZIP_KNIT_STRIPED_MULTICO_24422.jpg" alt="Raymond Quarter Zip Knit" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">RAYMOND QUARTER ZIP KNIT STRIPED MULTICO</div><div class="price-list">110,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/KOOL_CREWNECK_KNIT_LIGHT_BEIGE_24356.jpg" alt="Kool Crewneck Knit" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/KOOL_CREWNECK_KNIT_LIGHT_BEIGE_24356.jpg" alt="Kool Crewneck Knit" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">KOOL CREWNECK KNIT LIGHT BEIGE</div><div class="price-list">110,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/IBIZ_HOODIE_HEATHER_GREY_24504.jpg" alt="Ibiz Hoodie" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/IBIZ_HOODIE_HEATHER_GREY_24504.jpg" alt="Ibiz Hoodie" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">IBIZ HOODIE HEATHER GREY</div><div class="price-list">115,00€</div></div></div>
-                    <div class="product-card"><div class="product-card__figure"><div class="product-card__media"><img src="https://www.helascaps.com/cdn/shop/files/CARLITO_SWEAT_POLO_MULTICO_24442.jpg" alt="Carlito Sweat Polo" class="product-card__image--primary"><img src="https://www.helascaps.com/cdn/shop/files/CARLITO_SWEAT_POLO_MULTICO_24442.jpg" alt="Carlito Sweat Polo" class="product-card__image--secondary"></div></div><div class="product-card__info"><div class="product-title">CARLITO SWEAT POLO MULTICO</div><div class="price-list">105,00€</div></div></div>
-                </div>
-                <div style="text-align: center; padding: 40px; background: #f5f5f5; border-top: 1px solid #e0e0e0; font-size: 12px; color: #666;"><p>© 2026 HÉLAS — Made by EasyEshop</p></div>
+        <!-- #1 FICHE PRODUIT -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">1</div>
+                <span class="group-title">Fiche Produit</span>
+                <a href="reco/fiche-produit.html" class="group-link">Voir avant / après →</a>
             </div>
-        </section>
+            <div class="sub-recos">
+                <div class="sub-reco critique"><div class="sub-number">#1.1</div><span class="sub-badge">CRITIQUE</span><h4>Absence de social proof (avis clients)</h4><p>Aucun avis produit visible. Les avis augmentent la confiance et les conversions de +30% en moyenne.</p><div class="sub-impact"><div><strong>Impact:</strong> +25-30%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco critique"><div class="sub-number">#1.2</div><span class="sub-badge">CRITIQUE</span><h4>Trust signals cachés</h4><p>Aucune garantie visible (retours, SSL, satisfaction). Ces éléments réduisent la friction à l'achat.</p><div class="sub-impact"><div><strong>Impact:</strong> +18-22%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco critique"><div class="sub-number">#1.3</div><span class="sub-badge">CRITIQUE</span><h4>Guide des tailles absent en fiche produit</h4><p>Pas d'accès rapide au guide des tailles. Cause de 40% des retours en ecommerce.</p><div class="sub-impact"><div><strong>Impact:</strong> +15-20%</div><div><strong>Effort:</strong> Minimal</div></div></div>
+                <div class="sub-reco critique"><div class="sub-number">#1.4</div><span class="sub-badge">CRITIQUE</span><h4>Incohérence FR/EN dans le contenu</h4><p>Mélange de textes en français et anglais. Crée de la friction et de la confusion.</p><div class="sub-impact"><div><strong>Impact:</strong> +10-15%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco eleve"><div class="sub-number">#1.5</div><span class="sub-badge">ÉLEVÉ</span><h4>Aucune urgence / rareté</h4><p>Pas de badges de rareté. Augmente l'action immédiate.</p><div class="sub-impact"><div><strong>Impact:</strong> +12-18%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco eleve"><div class="sub-number">#1.6</div><span class="sub-badge">ÉLEVÉ</span><h4>Pas de FAQ produit</h4><p>Les questions courantes ne sont pas adressées. Crée du doute.</p><div class="sub-impact"><div><strong>Impact:</strong> +10-14%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#1.7</div><span class="sub-badge">MOYEN</span><h4>Pas de "Back in stock" notification</h4><p>Les articles out-of-stock n'offrent pas d'option "Notifier moi". Perte de ventes.</p><div class="sub-impact"><div><strong>Impact:</strong> +3-7%</div><div><strong>Effort:</strong> Faible</div></div></div>
+            </div>
+        </div>
 
-        <!-- PRODUCT PAGE -->
-        <section id="product-section" class="demo-section">
-            <h2>Fiche Produit — JAZZY JEANS JACKET LIGHT BLUE</h2>
-            <p class="section-desc">Voir la fiche produit actuelle et les optimisations CRO. Basculez pour voir les améliorations de conversion.</p>
-            <button class="comparison-toggle" onclick="toggleProduct()">AVANT / APRÈS</button>
-            <div class="promo-bar">🎉 10% offert sur votre première commande avec le code <strong>HELAS10</strong><a href="#recommendations-section">En savoir plus</a></div>
-            <div class="shopify-section--main-product">
-                <div class="product-page">
-                    <div class="product-gallery">
-                        <div class="product-gallery__main"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg" alt="Jazzy Jeans Jacket" id="gallery-main"></div>
-                        <div class="product-gallery__thumbnails">
-                            <div class="product-gallery__thumbnail active" onclick="changeImage(0)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg" alt=""></div>
-                            <div class="product-gallery__thumbnail" onclick="changeImage(1)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24393.jpg" alt=""></div>
-                            <div class="product-gallery__thumbnail" onclick="changeImage(2)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24394.jpg" alt=""></div>
-                            <div class="product-gallery__thumbnail" onclick="changeImage(3)"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24395.jpg" alt=""></div>
-                        </div>
-                    </div>
-                    <div class="product-info">
-                        <h1 class="product-info__title">JAZZY JEANS JACKET LIGHT BLUE</h1>
-                        <div class="product-info__price">145,00€</div>
-                        <div class="product-info__trust-icons" id="trust-icons">
-                            <div class="trust-icon"><span class="trust-icon-badge">✓</span><span>Livraison gratuite à partir de 125€ (CRO #13)</span></div>
-                            <div class="trust-icon"><span class="trust-icon-badge">✓</span><span>30 jours retours garantis (CRO #2)</span></div>
-                            <div class="trust-icon"><span class="trust-icon-badge">✓</span><span>Paiement sécurisé SSL (CRO #2)</span></div>
-                            <div class="trust-icon"><span class="trust-icon-badge">★</span><span>4.8/5 - 324 avis (CRO #1)</span></div>
-                        </div>
-                        <div class="urgency-notice" id="urgency-notice">⏰ Plus que 3 articles en stock — Uniquement size L et XL disponibles (CRO #6)</div>
-                        <div class="product-info__description">WASHED DENIM JACKET WITH BUTTONED POCKETS. CURDUROY COLLAR DETAIL. JAZZY EMBROIDERED LOGO AT FRONT</div>
-                        <div class="product-info__size-selector">
-                            <label class="size-selector-label">TAILLE</label>
-                            <div class="size-selector-grid">
-                                <div class="size-option" onclick="selectSize(this, 'XS')">XS</div>
-                                <div class="size-option" onclick="selectSize(this, 'S')">S</div>
-                                <div class="size-option" onclick="selectSize(this, 'M')">M</div>
-                                <div class="size-option" onclick="selectSize(this, 'L')">L</div>
-                                <div class="size-option" onclick="selectSize(this, 'XL')">XL</div>
-                            </div>
-                            <a class="size-guide-link" id="size-guide-link" onclick="openSizeGuide()">Consulter le guide des tailles →</a>
-                        </div>
-                        <button class="add-to-cart-btn" onclick="addToCart()">AJOUTER AU PANIER</button>
-                        <div class="product-info__accordion">
-                            <div class="accordion-item">
-                                <div class="accordion-header" onclick="toggleAccordion(event)"><span>Description détaillée</span><span class="toggle-icon">▼</span></div>
-                                <div class="accordion-content"><p>WASHED DENIM JACKET WITH BUTTONED POCKETS. CURDUROY COLLAR DETAIL. Cette veste en denim lavé offre un look classique avec une touche moderne. Parfaite pour toutes les saisons.</p></div>
-                            </div>
-                            <div class="accordion-item">
-                                <div class="accordion-header" onclick="toggleAccordion(event)"><span>Guide des tailles</span><span class="toggle-icon">▼</span></div>
-                                <div class="accordion-content"><p><strong>XS:</strong> Poitrine 33-34 inches<br><strong>S:</strong> Poitrine 35-36 inches<br><strong>M:</strong> Poitrine 37-38 inches<br><strong>L:</strong> Poitrine 39-40 inches<br><strong>XL:</strong> Poitrine 41-42 inches</p></div>
-                            </div>
-                            <div class="accordion-item">
-                                <div class="accordion-header" onclick="toggleAccordion(event)"><span>Expédition et retours</span><span class="toggle-icon">▼</span></div>
-                                <div class="accordion-content"><p><strong>Livraison:</strong> Gratuite en Europe à partir de 125€. Délai de 3-5 jours ouvrables.<br><strong>Retours:</strong> 30 jours pour retourner votre commande sans frais.</p></div>
-                            </div>
-                            <div class="faq-accordion" id="faq-accordion">
-                                <div class="accordion-item">
-                                    <div class="accordion-header" onclick="toggleAccordion(event)"><span>Questions fréquentes</span><span class="toggle-icon">▼</span></div>
-                                    <div class="accordion-content"><p><strong>Quelle est la matière exacte?</strong><br>Denim 100% coton, col en velours côtelé.<br><br><strong>Peut-on laver cette veste?</strong><br>Oui, lavage à froid conseillé. Éviter l'eau chaude pour préserver la couleur.<br><br><strong>Combien de temps pour recevoir?</strong><br>3-5 jours pour la France et l'Europe.</p></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div style="margin-top: 40px; padding-top: 40px; border-top: 1px solid #e0e0e0;">
-                            <h3 style="font-size: 14px; font-weight: bold; margin-bottom: 20px;">PRODUITS CONNEXES</h3>
-                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                                <div style="text-align: center;"><img src="https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_PANTS_LIGHT_BLUE_24372.jpg" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 8px;"><div style="font-size: 12px; font-weight: bold;">JAZZY JEANS PANTS</div><div style="font-size: 12px; color: #666;">115,00€</div></div>
-                                <div style="text-align: center;"><img src="https://www.helascaps.com/cdn/shop/files/HOOP_QUARTER_ZIP_BLUE_BLACK_24508.jpg" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 8px;"><div style="font-size: 12px; font-weight: bold;">HOOP QUARTER ZIP</div><div style="font-size: 12px; color: #666;">115,00€</div></div>
-                                <div style="text-align: center;"><img src="https://www.helascaps.com/cdn/shop/files/KOOL_CREWNECK_KNIT_LIGHT_BEIGE_24356.jpg" style="width: 100%; height: 150px; object-fit: cover; margin-bottom: 8px;"><div style="font-size: 12px; font-weight: bold;">KOOL CREWNECK KNIT</div><div style="font-size: 12px; color: #666;">110,00€</div></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        <!-- #2 HOMEPAGE -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">2</div>
+                <span class="group-title">Homepage</span>
+                <a href="reco/homepage.html" class="group-link">Voir avant / après →</a>
             </div>
-        </section>
+            <div class="sub-recos">
+                <div class="sub-reco critique"><div class="sub-number">#2.1</div><span class="sub-badge">CRITIQUE</span><h4>Homepage passive</h4><p>Pas de CTA fort, pas de storytelling. La page manque de direction et de momentum de conversion.</p><div class="sub-impact"><div><strong>Impact:</strong> +20-28%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#2.2</div><span class="sub-badge">MOYEN</span><h4>Bestsellers non mis en avant</h4><p>Les articles à succès ne sont pas marqués. Augmente la crédibilité sociale.</p><div class="sub-impact"><div><strong>Impact:</strong> +6-10%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco bonus"><div class="sub-number">#2.3</div><span class="sub-badge">BONUS</span><h4>Zéro preuve de communauté</h4><p>Pas de UGC, pas de hashtag de community. Manque une connexion émotionnelle.</p><div class="sub-impact"><div><strong>Impact:</strong> +5-10%</div><div><strong>Effort:</strong> Moyen-Élevé</div></div></div>
+                <div class="sub-reco bonus"><div class="sub-number">#2.4</div><span class="sub-badge">BONUS</span><h4>Storytelling marque enfoui</h4><p>L'histoire de Hélas n'est pas visible. Les marques avec storytelling convertissent +30%.</p><div class="sub-impact"><div><strong>Impact:</strong> +8-15%</div><div><strong>Effort:</strong> Moyen-Élevé</div></div></div>
+            </div>
+        </div>
 
-        <!-- RECOMMENDATIONS -->
-        <section id="recommendations-section" class="demo-section">
-            <div class="recommendations-intro">
-                <h2>25 Opportunités d'optimisation CRO</h2>
-                <p>Cliquez sur une recommandation pour en savoir plus. Les problèmes sont classés par impact potentiel.</p>
-                <div class="recommendation-filters">
-                    <button class="filter-btn active" onclick="filterRecommendations('all')">Toutes (25)</button>
-                    <button class="filter-btn" onclick="filterRecommendations('critique')">Critique (5)</button>
-                    <button class="filter-btn" onclick="filterRecommendations('eleve')">Élevé (5)</button>
-                    <button class="filter-btn" onclick="filterRecommendations('moyen')">Moyen (7)</button>
-                    <button class="filter-btn" onclick="filterRecommendations('bonus')">Bonus (8)</button>
-                </div>
+        <!-- #3 PAGES COLLECTION -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">3</div>
+                <span class="group-title">Pages Collection</span>
+                <a href="reco/collection.html" class="group-link">Voir avant / après →</a>
             </div>
-            <div class="recommendations-grid">
-                <div class="recommendation-card critique" data-category="critique"><div class="recommendation-number">#1</div><span class="priority-badge">CRITIQUE</span><h3>Absence de social proof (avis clients)</h3><p>Aucun avis produit visible. Les avis augmentent la confiance et les conversions de +30% en moyenne.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +25-30%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card critique" data-category="critique"><div class="recommendation-number">#2</div><span class="priority-badge">CRITIQUE</span><h3>Trust signals cachés</h3><p>Aucune garantie visible (retours, SSL, satisfaction). Ces éléments réduisent la friction à l'achat.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +18-22%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card critique" data-category="critique"><div class="recommendation-number">#3</div><span class="priority-badge">CRITIQUE</span><h3>Guide des tailles absent en fiche produit</h3><p>Pas d'accès rapide au guide des tailles. Cause de 40% des retours en ecommerce.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +15-20%</div><div class="impact-item"><strong>Effort:</strong> Minimal</div></div></div>
-                <div class="recommendation-card critique" data-category="critique"><div class="recommendation-number">#4</div><span class="priority-badge">CRITIQUE</span><h3>Homepage passive</h3><p>Pas de CTA fort, pas de storytelling. La page manque de direction et de momentum de conversion.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +20-28%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card critique" data-category="critique"><div class="recommendation-number">#5</div><span class="priority-badge">CRITIQUE</span><h3>Incohérence FR/EN dans le contenu</h3><p>Mélange de textes en français et anglais. Crée de la friction et de la confusion.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +10-15%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card eleve" data-category="eleve"><div class="recommendation-number">#6</div><span class="priority-badge">ÉLEVÉ</span><h3>Aucune urgence / rareté</h3><p>Pas de badges de rareté. Augmente l'action immédiate.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +12-18%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card eleve" data-category="eleve"><div class="recommendation-number">#7</div><span class="priority-badge">ÉLEVÉ</span><h3>Pas de "Shop the Look"</h3><p>Aucune recommandation contextuelle de produits connexes. Manque d'upsell.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +15-20%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card eleve" data-category="eleve"><div class="recommendation-number">#8</div><span class="priority-badge">ÉLEVÉ</span><h3>Pas de filtre taille sur collection</h3><p>Les visiteurs doivent ouvrir chaque produit pour vérifier les tailles. Friction inutile.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +8-12%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card eleve" data-category="eleve"><div class="recommendation-number">#9</div><span class="priority-badge">ÉLEVÉ</span><h3>Pas de bundles / cross-sell</h3><p>Aucune offre de pack. Opportunité de panier moyen augmenté.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +18-25%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card eleve" data-category="eleve"><div class="recommendation-number">#10</div><span class="priority-badge">ÉLEVÉ</span><h3>Pas de FAQ produit</h3><p>Les questions courantes ne sont pas adressées. Crée du doute.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +10-14%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#11</div><span class="priority-badge">MOYEN</span><h3>Images sans contexte morpho</h3><p>Les images produit manquent de photos portées par modèles. Réduit la visualisation.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +8-12%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#12</div><span class="priority-badge">MOYEN</span><h3>Pas de vidéo produit</h3><p>Les vidéos augmentent les conversions de +80%. Manque une opportunité clé.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +15-20%</div><div class="impact-item"><strong>Effort:</strong> Moyen-Élevé</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#13</div><span class="priority-badge">MOYEN</span><h3>Seuil livraison gratuite élevé (125€)</h3><p>125€ en Europe est élevé. Réduire à 100€ augmente les ACV sans trop pénaliser la marge.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +5-10%</div><div class="impact-item"><strong>Effort:</strong> Minimal</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#14</div><span class="priority-badge">MOYEN</span><h3>Pas de wishlist</h3><p>Permet aux visiteurs de sauvegarder. Génère du retargeting et des données.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +5-8%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#15</div><span class="priority-badge">MOYEN</span><h3>Pas de "Back in stock" notification</h3><p>Les articles out-of-stock n'offrent pas d'option "Notifier moi". Perte de ventes.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +3-7%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#16</div><span class="priority-badge">MOYEN</span><h3>Bestsellers non mis en avant</h3><p>Les articles à succès ne sont pas marqués. Augmente la crédibilité sociale.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +6-10%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#17</div><span class="priority-badge">MOYEN</span><h3>Checkout guest non optimisé</h3><p>Pas d'option de paiement express (Apple Pay, Google Pay). Abandons à +30%.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +8-15%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card moyen" data-category="moyen"><div class="recommendation-number">#18</div><span class="priority-badge">MOYEN</span><h3>Pop-up newsletter générique</h3><p>La pop-up n'est pas contextualisée. CTR très bas.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +4-8%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#19</div><span class="priority-badge">BONUS</span><h3>Zéro preuve de communauté</h3><p>Pas de UGC, pas de hashtag de community. Manque une connexion émotionnelle.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +5-10%</div><div class="impact-item"><strong>Effort:</strong> Moyen-Élevé</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#20</div><span class="priority-badge">BONUS</span><h3>Collaborations sous-exploitées</h3><p>Les collabs n'ont pas de storytelling dédié. Opportunité de audiences externes.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +5-12%</div><div class="impact-item"><strong>Effort:</strong> Élevé</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#21</div><span class="priority-badge">BONUS</span><h3>Footer "cimetière"</h3><p>Footer basique sans valeur. Pas de liens SEO, pas de ressources.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +2-5%</div><div class="impact-item"><strong>Effort:</strong> Faible</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#22</div><span class="priority-badge">BONUS</span><h3>Storytelling marque enfoui</h3><p>L'histoire de Hélas n'est pas visible. Les marques avec storytelling convertissent +30%.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +8-15%</div><div class="impact-item"><strong>Effort:</strong> Moyen-Élevé</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#23</div><span class="priority-badge">BONUS</span><h3>Pas de programme de fidélité</h3><p>Zéro rewards/points pour les clients. Opportunité de LTV croissant (+40%).</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +10-20%</div><div class="impact-item"><strong>Effort:</strong> Élevé</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#24</div><span class="priority-badge">BONUS</span><h3>Zéro stratégie post-achat</h3><p>Pas de confirmation email riche, pas de cross-sell après achat.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +5-15%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
-                <div class="recommendation-card bonus" data-category="bonus"><div class="recommendation-number">#25</div><span class="priority-badge">BONUS</span><h3>Moteur de recherche basique</h3><p>La recherche interne ne propose pas d'auto-complétion, de filtres.</p><div class="impact-info"><div class="impact-item"><strong>Impact:</strong> +3-8%</div><div class="impact-item"><strong>Effort:</strong> Moyen</div></div></div>
+            <div class="sub-recos">
+                <div class="sub-reco eleve"><div class="sub-number">#3.1</div><span class="sub-badge">ÉLEVÉ</span><h4>Pas de filtre taille sur collection</h4><p>Les visiteurs doivent ouvrir chaque produit pour vérifier les tailles. Friction inutile.</p><div class="sub-impact"><div><strong>Impact:</strong> +8-12%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#3.2</div><span class="sub-badge">MOYEN</span><h4>Images sans contexte morpho</h4><p>Les images produit manquent de photos portées par modèles. Réduit la visualisation.</p><div class="sub-impact"><div><strong>Impact:</strong> +8-12%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#3.3</div><span class="sub-badge">MOYEN</span><h4>Pas de vidéo produit</h4><p>Les vidéos augmentent les conversions de +80%. Manque une opportunité clé.</p><div class="sub-impact"><div><strong>Impact:</strong> +15-20%</div><div><strong>Effort:</strong> Moyen-Élevé</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#3.4</div><span class="sub-badge">MOYEN</span><h4>Pas de wishlist</h4><p>Permet aux visiteurs de sauvegarder. Génère du retargeting et des données.</p><div class="sub-impact"><div><strong>Impact:</strong> +5-8%</div><div><strong>Effort:</strong> Moyen</div></div></div>
             </div>
-        </section>
+        </div>
+
+        <!-- #4 CROSS-SELL & PANIER -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">4</div>
+                <span class="group-title">Cross-sell & Panier</span>
+                <a href="reco/cross-sell.html" class="group-link">Voir avant / après →</a>
+            </div>
+            <div class="sub-recos">
+                <div class="sub-reco eleve"><div class="sub-number">#4.1</div><span class="sub-badge">ÉLEVÉ</span><h4>Pas de "Shop the Look"</h4><p>Aucune recommandation contextuelle de produits connexes. Manque d'upsell.</p><div class="sub-impact"><div><strong>Impact:</strong> +15-20%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+                <div class="sub-reco eleve"><div class="sub-number">#4.2</div><span class="sub-badge">ÉLEVÉ</span><h4>Pas de bundles / cross-sell</h4><p>Aucune offre de pack. Opportunité de panier moyen augmenté.</p><div class="sub-impact"><div><strong>Impact:</strong> +18-25%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#4.3</div><span class="sub-badge">MOYEN</span><h4>Seuil livraison gratuite élevé (125€)</h4><p>125€ en Europe est élevé. Réduire à 100€ augmente les ACV sans trop pénaliser la marge.</p><div class="sub-impact"><div><strong>Impact:</strong> +5-10%</div><div><strong>Effort:</strong> Minimal</div></div></div>
+            </div>
+        </div>
+
+        <!-- #5 CHECKOUT -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">5</div>
+                <span class="group-title">Checkout</span>
+                <a href="reco/checkout.html" class="group-link">Voir avant / après →</a>
+            </div>
+            <div class="sub-recos">
+                <div class="sub-reco moyen"><div class="sub-number">#5.1</div><span class="sub-badge">MOYEN</span><h4>Checkout guest non optimisé</h4><p>Pas d'option de paiement express (Apple Pay, Google Pay). Abandons à +30%.</p><div class="sub-impact"><div><strong>Impact:</strong> +8-15%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco moyen"><div class="sub-number">#5.2</div><span class="sub-badge">MOYEN</span><h4>Pop-up newsletter générique</h4><p>La pop-up n'est pas contextualisée. CTR très bas.</p><div class="sub-impact"><div><strong>Impact:</strong> +4-8%</div><div><strong>Effort:</strong> Faible</div></div></div>
+            </div>
+        </div>
+
+        <!-- #6 FIDÉLISATION & POST-ACHAT -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">6</div>
+                <span class="group-title">Fidélisation & Post-achat</span>
+                <a href="reco/fidelisation.html" class="group-link">Voir avant / après →</a>
+            </div>
+            <div class="sub-recos">
+                <div class="sub-reco bonus"><div class="sub-number">#6.1</div><span class="sub-badge">BONUS</span><h4>Collaborations sous-exploitées</h4><p>Les collabs n'ont pas de storytelling dédié. Opportunité de audiences externes.</p><div class="sub-impact"><div><strong>Impact:</strong> +5-12%</div><div><strong>Effort:</strong> Élevé</div></div></div>
+                <div class="sub-reco bonus"><div class="sub-number">#6.2</div><span class="sub-badge">BONUS</span><h4>Pas de programme de fidélité</h4><p>Zéro rewards/points pour les clients. Opportunité de LTV croissant (+40%).</p><div class="sub-impact"><div><strong>Impact:</strong> +10-20%</div><div><strong>Effort:</strong> Élevé</div></div></div>
+                <div class="sub-reco bonus"><div class="sub-number">#6.3</div><span class="sub-badge">BONUS</span><h4>Zéro stratégie post-achat</h4><p>Pas de confirmation email riche, pas de cross-sell après achat.</p><div class="sub-impact"><div><strong>Impact:</strong> +5-15%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+            </div>
+        </div>
+
+        <!-- #7 STRUCTURE DU SITE -->
+        <div class="group">
+            <div class="group-header">
+                <div class="group-number">7</div>
+                <span class="group-title">Structure du site</span>
+                <a href="reco/structure.html" class="group-link">Voir avant / après →</a>
+            </div>
+            <div class="sub-recos">
+                <div class="sub-reco bonus"><div class="sub-number">#7.1</div><span class="sub-badge">BONUS</span><h4>Footer "cimetière"</h4><p>Footer basique sans valeur. Pas de liens SEO, pas de ressources.</p><div class="sub-impact"><div><strong>Impact:</strong> +2-5%</div><div><strong>Effort:</strong> Faible</div></div></div>
+                <div class="sub-reco bonus"><div class="sub-number">#7.2</div><span class="sub-badge">BONUS</span><h4>Moteur de recherche basique</h4><p>La recherche interne ne propose pas d'auto-complétion, de filtres.</p><div class="sub-impact"><div><strong>Impact:</strong> +3-8%</div><div><strong>Effort:</strong> Moyen</div></div></div>
+            </div>
+        </div>
     </main>
 
-    <!-- FOOTER -->
     <footer class="demo-footer">
         <p>Audit CRO © 2026 — Démonstration Hélas Caps</p>
         <p><a href="https://www.helascaps.com" target="_blank">Retour au site original →</a></p>
-        <p style="font-size: 11px; color: #999; margin-top: 20px;">Ce site de démo charge les vraies feuilles de style Shopify depuis le CDN pour une fidélité maximale.</p>
     </footer>
-
-    <script>
-        const galleryImages = ['https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24392.jpg', 'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24393.jpg', 'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24394.jpg', 'https://www.helascaps.com/cdn/shop/files/JAZZY_JEANS_JACKET_LIGHT_BLUE_24395.jpg'];
-        
-        function changeImage(index) {
-            document.getElementById('gallery-main').src = galleryImages[index];
-            document.querySelectorAll('.product-gallery__thumbnail').forEach((thumb, i) => {
-                thumb.classList.toggle('active', i === index);
-            });
-        }
-        
-        function selectSize(element, size) {
-            document.querySelectorAll('.size-option').forEach(opt => opt.classList.remove('selected'));
-            element.classList.add('selected');
-        }
-        
-        function openSizeGuide() {
-            document.querySelector('.accordion-item:nth-child(2)').querySelector('.accordion-header').click();
-        }
-        
-        function addToCart() {
-            const selectedSize = document.querySelector('.size-option.selected');
-            if (!selectedSize) { alert('Veuillez sélectionner une taille'); return; }
-            alert('Produit ajouté au panier (Démo)');
-        }
-        
-        function toggleAccordion(event) {
-            const header = event.currentTarget;
-            const content = header.nextElementSibling;
-            header.classList.toggle('open');
-            content.classList.toggle('open');
-        }
-        
-        function toggleHomepage() {
-            const homepage = document.querySelector('.homepage');
-            const button = document.querySelector('#homepage-section .comparison-toggle');
-            if (homepage.classList.contains('show-after')) {
-                homepage.classList.remove('show-after');
-                button.textContent = 'AVANT / APRÈS';
-            } else {
-                homepage.classList.add('show-after');
-                button.textContent = 'VOIR AVANT';
-                document.querySelectorAll('.product-list .product-card').forEach(card => {
-                    card.classList.add('avec-cro');
-                    if (!card.querySelector('.star-rating')) {
-                        const starRating = document.createElement('div');
-                        starRating.className = 'star-rating show';
-                        starRating.textContent = '⭐⭐⭐⭐⭐ (4.8)';
-                        card.querySelector('.product-card__info').insertBefore(starRating, card.querySelector('.price-list'));
-                    }
-                    if (Math.random() > 0.5 && !card.querySelector('.urgency-badge')) {
-                        const badge = document.createElement('div');
-                        badge.className = 'urgency-badge show';
-                        badge.textContent = 'Seulement 2 restants';
-                        card.querySelector('.product-card__figure').appendChild(badge);
-                    }
-                });
-            }
-        }
-        
-        function toggleProduct() {
-            const trustIcons = document.getElementById('trust-icons');
-            const urgencyNotice = document.getElementById('urgency-notice');
-            const faqAccordion = document.getElementById('faq-accordion');
-            const sizeGuideLink = document.getElementById('size-guide-link');
-            const button = document.querySelector('#product-section .comparison-toggle');
-            if (trustIcons.classList.contains('show')) {
-                trustIcons.classList.remove('show');
-                urgencyNotice.classList.remove('show');
-                faqAccordion.classList.remove('show');
-                sizeGuideLink.classList.remove('show');
-                button.textContent = 'AVANT / APRÈS';
-            } else {
-                trustIcons.classList.add('show');
-                urgencyNotice.classList.add('show');
-                faqAccordion.classList.add('show');
-                sizeGuideLink.classList.add('show');
-                button.textContent = 'VOIR AVANT';
-            }
-        }
-        
-        function filterRecommendations(category) {
-            const cards = document.querySelectorAll('.recommendation-card');
-            const buttons = document.querySelectorAll('.filter-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            cards.forEach(card => {
-                card.style.display = (category === 'all' || card.classList.contains(category)) ? 'block' : 'none';
-            });
-        }
-        
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (this.getAttribute('href').startsWith('#')) {
-                    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                }
-            });
-        });
-        
-        window.addEventListener('scroll', () => {
-            let current = '';
-            document.querySelectorAll('section').forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 200) { current = section.getAttribute('id'); }
-            });
-            document.querySelectorAll('.nav-link').forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) { link.classList.add('active'); }
-            });
-        });
-    </script>
 </body>
 </html>
